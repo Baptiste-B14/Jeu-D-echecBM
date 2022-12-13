@@ -61,7 +61,7 @@ public class Main {
     public static int[] demandePosition(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
 
-       int[] position = new int[2];
+        int[] position = new int[2];
 
 
 
@@ -81,12 +81,174 @@ public class Main {
         return position;
     }
 
+    public static boolean deplacementTour(int tab[][], int indice, int i, int j){  //indice = position actuelle, i = futur x, j = futur y
+        int x = tab[indice][0];
+        int y = tab[indice][1];
+
+        return ((i!=x && j== y) || (i==x && j!=y));    // (i!=x && j== y) --> deplacement horizontal    (i==x && j!=y) --> deplacement vertical
+    }
+
+
+    public static boolean deplacementFou(int tab[][], int indice, int i, int j){
+        int x = tab[indice][0];
+        int y = tab[indice][1];
+
+        return ((Math.abs(x-i)) == (Math.abs(y-j)));  // le deplacement horizontal et vertical doivent avoir la meme valeur (diagonal).
+        // afin de traiter tout les cas, valeur absolue evite d'avoir des valeur négatives i et j sup a x et y (deplacement vers le bas)é
+
+
+    }
+
+    public static boolean deplacementReine(int tab[][], int indice, int i, int j){ // combinaison d'un deplacement de tour ou de fou
+        return (deplacementFou(tab, indice, i,j) || deplacementTour(tab, indice, i, j));
+    }
+
+    public static boolean deplacementCavalier(int tab[][], int indice, int i, int j){
+        int x = tab[indice][0];
+        int y = tab[indice][1];
+
+        return((Math.abs(x- i)==1 && Math.abs(y-j)==2) || (Math.abs(x- i)==2 && Math.abs(y-j)==1));  // la valeur absolue permet de s'occuper de la symetrie, quelque soit la direction du cavalier
+        //une fois éliminée la symetrie selon x et y, il y a deux possibilité de position
+        // x+1 et y+2 ou x+2 et y+1;
+    }
+
+    public static boolean deplacementRoi(int tab[][], int indice, int i, int j){
+        int x = tab[indice][0];
+        int y = tab[indice][1];
+
+
+
+        return ((Math.abs(y-j) == 1 && Math.abs(x-i) ==0) || (Math.abs(y-j) == 0 && Math.abs(x-i) ==1) || (Math.abs(y-j) == 1 && Math.abs(x-i) ==1));
+    }
+
+
+    public static boolean verifCheminTour(int tabBlanc[][], int tabNoir[][],int couleur, int indice, int i, int j){
+        int x, y;
+        int [][]tabCouleur;
+
+        if(couleur ==1){
+            x = tabNoir[indice][0];
+            y = tabNoir[indice][1];
+            tabCouleur = tabNoir;
+        }else {
+            x = tabBlanc[indice][0];
+            y = tabBlanc[indice][1];
+            tabCouleur = tabBlanc;
+        }
+
+
+        if(x-i > 0){  // meme ligne, changement de colonne vers la gauche
+            for(int k=1; k < x-i; k++){
+                if(!caseDisponible(x-k, y, 0, tabNoir, tabBlanc) || !caseDisponible(x-k, y, 1, tabNoir, tabBlanc)){
+                    return false;
+                }
+
+            }
+        }
+
+        if(x-i < 0){  // meme ligne changement de colonne vers la droite
+            for(int k=1; k < x-i; k++){
+                if(!caseDisponible(x+k, y, 0, tabNoir, tabBlanc) || !caseDisponible(x+k, y, 1, tabNoir, tabBlanc)){
+                    return false;
+                }
+
+            }
+        }
+
+        if(y-j < 0){ // meme colonne changement de ligne vers le bas
+            for(int k=1; k < x-i; k++){
+                if(!caseDisponible(x, y+k, 0, tabNoir, tabBlanc) || !caseDisponible(x, y+k, 1, tabNoir, tabBlanc)){
+                    return false;
+                }
+
+            }
+        }
+
+        if(y-j > 0){ // meme colonne changement de ligne vers le haut
+            for(int k=1; k < x-i; k++){
+                if(!caseDisponible(x, y-k, 0, tabNoir, tabBlanc) || !caseDisponible(x, y-k, 1, tabNoir, tabBlanc)){
+                    return false;
+                }
+
+            }
+        }
+        return true;
+
+    }
+
+
+    public static boolean verificationDuCheminDame(int indice, int i, int j, int couleur, int[][]noir, int[][] blanc){
+        return (verifCheminTour() || verifCheminFou());
+    }
+
+    public static boolean caseDisponible(int i, int j, int couleur, int[][]noir, int [][] blanc){
+        return true;
+    }
+
+
+    public static void actualisationEchiquier(int i , int j, int indice,int couleur, int[][] noir, int[][]blanc){
+        int x, y;
+        int [][] tabCouleur, tabEnnemi;
+
+        if(couleur ==1){
+            x = noir[indice][0];
+            y = noir[indice][1];
+            tabCouleur = noir;
+            tabEnnemi = blanc;
+        }else {
+            x = blanc[indice][0];
+            y = blanc[indice][1];
+            tabCouleur = blanc;
+            tabEnnemi = noir ;
+        }
+
+
+        for(int parcours = 0; parcours<tabEnnemi.length; parcours++){
+            if((tabEnnemi[parcours][0] == i) && (tabEnnemi[parcours][1] == j)){
+                tabEnnemi[parcours][0] = -1;
+                tabEnnemi[parcours][1] = -1;
+            }
+        }
+        tabCouleur[indice][0] = i;
+        tabCouleur[indice][1] = j;
+
+    }
 
 
 
 
+    public static boolean deplacementPossible(int tab[][], int indice, int i, int j){
+        boolean possible = false;
 
+        switch (indice){
 
+            case 0:
+                possible = deplacementRoi(tab, indice, i, j);
+                break;
 
-     
+            case 1:
+                possible = deplacementReine(tab, indice, i, j);
+                break;
+
+            case(indice == 2 || indice == 3):
+                possible = deplacementFou(tab, indice, i, j);
+                break;
+
+            case(indice == 4 || indice == 5):
+                possible = deplacementCavalier(tab, indice, i, j);
+                break;
+
+            case(indice == 6 || indice == 7):
+                possible = deplacementTour(tab, indice, i, j);
+                break;
+            case(indice >7):
+                possible = deplacementPion(tab, indice, i, j);
+
+            default :
+                possible = false;
+        }
+        return possible;
+    }
 }
+
+
