@@ -9,6 +9,20 @@
         //
         //
         // On met les tableaux fictifs à la valeur des tableaux permanents
+        if (tour % 2 == 0) {    //copie par for
+
+                for(int i = 0; i<tblanc.length; i++){
+                    tabJoueur[i] = tblanc[i];
+                    tabEnnemi[i] = tnoir[i];
+                }
+
+        }else {
+                for(int i = 0; i<tblanc.length; i++){
+                    tabJoueur[i] = tnoir[i];
+                    tabEnnemi[i] = tblanc[i];
+         }
+
+        }
         //
         //
         //
@@ -36,6 +50,7 @@
                             tabJoueur = tnoir;
                             tabEnnemi = tblanc;
                         }
+                        
                     }
         }
         return true;
