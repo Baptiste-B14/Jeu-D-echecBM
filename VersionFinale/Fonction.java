@@ -3,31 +3,26 @@ import java.util.Scanner;
 public class Fonction {
 
 
-    public static int demandeSaisie(int couleur, int[][] blanc, int [][] noir){
+    public static int demandeSaisie( int[][] tabJoueur){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
         boolean caseNonVide = false;
-        int[][] tab= new int[16][2];
-        if(couleur==0){
-            tab= blanc;
-        }
-        if(couleur==1){
-            tab = noir;
-        }
+
+
 
         do {
 
             String CaseEchiquier = "";
             do {
 
-                System.out.println("Saisir une position : (format Lettre Chiffre: B5)");
+                System.out.println("Saisir la position de la pièce à déplacer: (format Lettre Chiffre: B5)");
                 CaseEchiquier = sc.nextLine().toUpperCase();
 
             } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
 
 
-            for (int i = 0; i < tab.length; i++) {
-                if ((tab[i][0] == CaseEchiquier.charAt(0) - 65) && tab[i][1] == CaseEchiquier.charAt(1) - 49) {
+            for (int i = 0; i < tabJoueur.length; i++) {
+                if ((tabJoueur[i][0] == CaseEchiquier.charAt(0) - 65) && tabJoueur[i][1] == CaseEchiquier.charAt(1) - 49) {
                     indicePiece = i;
                     caseNonVide = true;
                 }
@@ -37,7 +32,7 @@ public class Fonction {
             if(!caseNonVide) System.out.println("La case est vide ou contient une pièce qui n'est pas a vous");
 
         }while(!caseNonVide);
-
+        System.out.println("Pièce selectionnée.");
         return indicePiece;
 
     }
@@ -61,25 +56,19 @@ public class Fonction {
         position[1] = CaseEchiquier.charAt(1) - 49;
 
 
-        System.out.println("" + position[0] + position[1]);
+        System.out.println("Case selectionnée : " + position[0]+ " " + position[1]);
         return position;
     }
 
 
-    public static boolean caseDisponible (int i, int j, int couleur, int[][] noir, int[][] blanc){
-        if (couleur==0) {
-            for (int k = 0; k < blanc.length; k++) {
-                if (blanc[k][0] == i && blanc[k][1] == j) {
+    public static boolean caseDisponible (int i, int j, int[][] tabJoueur){
+
+            for (int k = 0; k < tabJoueur.length; k++) {
+                if (tabJoueur[k][0] == i && tabJoueur[k][1] == j) {
+                    System.out.println("La case est déjà occupée par une de vos pièces");
                     return false;
                 }
             }
-        }
-        if (couleur==1) {
-            for (int k = 0; k < noir.length; k++) {
-                if (noir[k][0] == i && noir[k][1] == j) return false;
-            }
-        }
-
 
         return true;
 
@@ -227,14 +216,14 @@ public class Fonction {
     }
 
 
-    public static boolean verificationDuChemin (int indicePiece, int i, int j, int couleur, int[][] noir, int[][] blanc){
+    public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur){
         boolean possible=false;
-        if(indicePiece==1) possible = verificationDuCheminDame(indicePiece, i, j, couleur, noir, blanc);
+        if(indicePiece==1) possible = verificationDuCheminDame(indicePiece, i, j, tabJoueur);
 
-        else if(indicePiece == 2 || indicePiece==3) possible = verificationDuCheminFou (indicePiece, i, j, couleur, noir, blanc);
+        else if(indicePiece == 2 || indicePiece==3) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur);
 
 
-        else if(indicePiece==6 || indicePiece==7) possible = verificationDuCheminTour (indicePiece, i, j, couleur, noir, blanc);
+        else if(indicePiece==6 || indicePiece==7) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur);
 
         else possible = true;
 
@@ -242,24 +231,15 @@ public class Fonction {
         return possible;
     }
 
-    public static boolean verificationDuCheminTour(int indice, int i, int j, int couleur, int tabNoir[][],  int tabBlanc[][]){
+    public static boolean verificationDuCheminTour(int indice, int i, int j,  int tabJoueur[][]){
         int x, y;
-        int [][]tabCouleur;
-
-        if(couleur ==1){
-            x = tabNoir[indice][0];
-            y = tabNoir[indice][1];
-            tabCouleur = tabNoir;
-        }else {
-            x = tabBlanc[indice][0];
-            y = tabBlanc[indice][1];
-            tabCouleur = tabBlanc;
-        }
+        x = tabJoueur[indice][0];
+        y = tabJoueur[indice][1];
 
 
         if(x-i > 0){  // meme ligne, changement de colonne vers la gauche
             for(int k=1; k < x-i; k++){
-                if(!caseDisponible(x-k, y, 0, tabNoir, tabBlanc) || !caseDisponible(x-k, y, 1, tabNoir, tabBlanc)){
+                if(!caseDisponible(x-k, y, tabJoueur)){
                     return false;
                 }
 
@@ -268,7 +248,7 @@ public class Fonction {
 
         if(x-i < 0){  // meme ligne changement de colonne vers la droite
             for(int k=1; k < x-i; k++){
-                if(!caseDisponible(x+k, y, 0, tabNoir, tabBlanc) || !caseDisponible(x+k, y, 1, tabNoir, tabBlanc)){
+                if(!caseDisponible(x+k, y,tabJoueur)){
                     return false;
                 }
 
@@ -277,7 +257,7 @@ public class Fonction {
 
         if(y-j < 0){ // meme colonne changement de ligne vers le bas
             for(int k=1; k < x-i; k++){
-                if(!caseDisponible(x, y+k, 0, tabNoir, tabBlanc) || !caseDisponible(x, y+k, 1, tabNoir, tabBlanc)){
+                if(!caseDisponible(x, y+k, tabJoueur)){
                     return false;
                 }
 
@@ -286,7 +266,7 @@ public class Fonction {
 
         if(y-j > 0){ // meme colonne changement de ligne vers le haut
             for(int k=1; k < x-i; k++){
-                if(!caseDisponible(x, y-k, 0, tabNoir, tabBlanc) || !caseDisponible(x, y-k, 1, tabNoir, tabBlanc)){
+                if(!caseDisponible(x, y-k, tabJoueur)){
                     return false;
                 }
 
@@ -296,45 +276,41 @@ public class Fonction {
 
     }
 
-    public static boolean verificationDuCheminDame(int indice, int i, int j, int couleur, int[][]noir, int[][] blanc){
-        return (verificationDuCheminTour(indice, i, j, couleur, noir,  blanc) || verificationDuCheminFou(indice, i, j, couleur, noir,  blanc));
+    public static boolean verificationDuCheminDame(int indice, int i, int j, int[][] tabJoueur){
+        return (verificationDuCheminTour(indice, i, j, tabJoueur) || verificationDuCheminFou(indice, i, j, tabJoueur));
     }
 
-    public static boolean verificationDuCheminFou (int indicePiece, int i, int j, int couleur, int[][] noir, int[][] blanc){
+    public static boolean verificationDuCheminFou (int indicePiece, int i, int j, int[][]tabJoueur){
         int x, y;
-        if(couleur==0){
-            x=blanc[indicePiece][0];
-            y=blanc[indicePiece][1];
-        }
-        else {
-            x=noir[indicePiece][0];
-            y=noir[indicePiece][1];
-        }
+
+        x=tabJoueur[indicePiece][0];
+        y=tabJoueur[indicePiece][1];
+
 
         //Partie en haut
         if (j > y){
 
             if (i > x) {//Partie en haut à droite
                 for (int k = 0; x + k < i; k++)
-                    if (!caseDisponible(x + k, y + k, 0, noir, blanc) || !caseDisponible(x + k, y + k, 1, noir, blanc))
+                    if (!caseDisponible(x + k, y + k, tabJoueur))
                         return false;
 
             }else//Partie en haut à gauche
                 for (int k = 0; x - k > i; k++)
-                    if (!caseDisponible(x - k, y + k, 0, noir, blanc) || !caseDisponible(x - k, y + k, 1, noir, blanc))
+                    if (!caseDisponible(x - k, y + k, tabJoueur))
                         return false;
 
         }else//Partie en bas
 
             if (i > x){//Partie en bas à droite
                 for (int k = 0; x + k < i; k++) {
-                    if (!caseDisponible(x + k, y - k, 0, noir, blanc) || !caseDisponible(x + k, y - k, 1, noir, blanc))
+                    if (!caseDisponible(x + k, y - k, tabJoueur))
                         return false;
                 }
 
             }else {//Partie en bas à gauche
                 for (int k = 0; x - k > i; k++) {
-                    if (!caseDisponible(x - k, y - k, 0, noir, blanc) || !caseDisponible(x - k, y - k, 1, noir, blanc))
+                    if (!caseDisponible(x - k, y - k, tabJoueur))
                         return false;
                 }
 
@@ -374,29 +350,18 @@ public class Fonction {
 
 
 
-    public static boolean echecRoi (int couleur, int[][] noir, int[][] blanc ){
+    public static boolean echecRoi (int[][]tabEnnemi, int[][] tabJoueur, int couleur){
         int xRoi;
         int yRoi;
-        if (couleur == 0){
-            xRoi = blanc[0][0];
-            yRoi = blanc[0][1];
-            for (int k=1; k<noir.length ; k++){
-                if (noir[k][0] >= 0){
-                    if (verificationDeplacementPossible(noir, blanc, k, xRoi, yRoi, 1 ) && verificationDuChemin (k, xRoi, yRoi, 1, noir, blanc))
+
+            xRoi = tabJoueur[0][0];
+            yRoi = tabJoueur[0][1];
+            for (int k=1; k<tabJoueur.length ; k++){
+                if (tabJoueur[k][0] >= 0){
+                    if (verificationDeplacementPossible(tabEnnemi, tabJoueur, k, xRoi, yRoi, couleur ) && verificationDuChemin (k, xRoi, yRoi, tabJoueur))
                         return true;
                 }
             }
-        }
-        else{
-            xRoi = noir[0][0];
-            yRoi = noir[0][1];
-            for (int k=1; k<blanc.length ; k++){
-                if (blanc[k][0] >= 0){
-                    if (verificationDeplacementPossible(noir, blanc, k, xRoi, yRoi, 0) && verificationDuChemin (k, xRoi, yRoi, 0, noir, blanc))
-                        return true;
-                }
-            }
-        }
         return false;
     }
 
