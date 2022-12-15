@@ -14,44 +14,42 @@ public class Menu {
         int tour = 0;
 
 
-
-
         int piece;
         int[] position = new int[2];
         int[][] tabJoueur = new int[16][2];
         int[][] tabEnnemi = new int[16][2];
 
-
-
         do {
-
 
             //Joueur en cours.
             if (tour % 2 == 0) {//copie par for
-                tabJoueur = tblanc;
-                tabEnnemi = tnoir;
-            }else{
-                tabJoueur = tnoir;
-                tabEnnemi = tblanc;
-            }
 
+                for(int i = 0; i<tblanc.length; i++){
+                    tabJoueur[i] = tblanc[i];
+                    tabEnnemi[i] = tnoir[i];
+                }
+
+            }else{
+                for(int i = 0; i<tblanc.length; i++){
+                    tabJoueur[i] = tnoir[i];
+                    tabEnnemi[i] = tblanc[i];
+                }
+
+            }
 
             do{
 
 
-
                 do{
-
 
                     do {
                     //Demande de selection du pion.
                     //Saisie forcée d'un pion valide
-                    piece = Fonction.demandeSaisie(couleur, tabJoueur, tabEnnemi);
+                    piece = Fonction.demandeSaisie(tabJoueur);
 
                     //Demande la future position de la pièce.
 
                     position = Fonction.demandePosition();
-
 
 
                     //Pas d'echec et mat (testé à la fin du tour précédent. Comme la position demandé ne met pas en echec
@@ -59,19 +57,19 @@ public class Menu {
 
 
 
-                    }while(!Fonction.caseDisponible(position[0], position[1], couleur, tabJoueur, tabEnnemi));
+                    }while(!Fonction.caseDisponible(position[0], position[1], tabJoueur));
 
 
 
                 }while(!Fonction.verificationDeplacementPossible(tabJoueur, tabEnnemi, piece, position[1],position[1], couleur));
 
 
-            }while(!Fonction.verificationDuChemin(piece, position[0], position[1],couleur, tabJoueur, tabEnnemi));
+            }while(!Fonction.verificationDuChemin(piece, position[0], position[1], tabJoueur));
 
             Fonction.actualisationEchiquier(position[0], position[1],piece, couleur, tabJoueur, tabEnnemi);
 
 
-        }while(Fonction.echecRoi(couleur, tabJoueur, tabEnnemi));//Tant que echec, alors on doit choisir une position valide
+        }while(Fonction.echecRoi(tabJoueur, tabEnnemi, couleur));//Tant que echec, alors on doit choisir une position valide
 
 
 
@@ -91,7 +89,7 @@ public class Menu {
         //affichage()
 
 
-        if(Fonction.echecRoi(couleur, tabEnnemi, tabJoueur)){
+        if(Fonction.echecRoi(tabEnnemi, tabJoueur, couleur)){
             Fonction.echecEtMat();
         }
 
