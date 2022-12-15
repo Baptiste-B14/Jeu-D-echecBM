@@ -29,8 +29,8 @@
         // On cherche à parcourir les 64 cases de l'échiquier
         for (int case=0; case<64; case++){
             // On prend les coordonnées de chaque case
-            int x=case%8;
-            int y=case/8;
+            int x=case/8;
+            int y=case%8;
             // On parcourt les 16 pièces de l'ennemi
             for (int indicePiece=0; indicePiece<16; indicePiece++)
                 // On s'assure que la pièce manipulée n'est pas hors-jeu :
@@ -43,12 +43,19 @@
 
                         // On ré-actualise les tableaux d'origine 
                         // Pour ne pas enregistrer le déplacement fictif de la pièce
-                        if (tour % 2 == 0) {//copie par for
-                            tabJoueur = tblanc;
-                            tabEnnemi = tnoir;
-                        } else {
-                            tabJoueur = tnoir;
-                            tabEnnemi = tblanc;
+                        if (tour % 2 == 0) {    //copie par for
+
+                            for(int i = 0; i<tblanc.length; i++){
+                                tabJoueur[i] = tblanc[i];
+                                tabEnnemi[i] = tnoir[i];
+                            }
+
+                        }else {
+                            for(int i = 0; i<tblanc.length; i++){
+                                tabJoueur[i] = tnoir[i];
+                                tabEnnemi[i] = tblanc[i];
+                            }
+
                         }
                         
                     }
