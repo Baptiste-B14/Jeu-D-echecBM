@@ -1,0 +1,44 @@
+public static boolean deplacementPion(int indicePiece, int i, int j, int couleur, int[][] tabJoueur, int[][] tabEnnemi){
+        boolean possible = false;
+        if (couleur==0){
+            // Voir quand le pion essaie d'aller une ligne plus loin
+            if (tabJoueur[indicePiece][0]+1==i) {
+                // Voir s'il y a une pièce noire sur la case[x+1][y]
+                if (tabJoueur[indicePiece][1] == j) {
+                    if (caseDisponible(i, j, tabEnnemi))
+                        possible= true;
+                }
+                // Voir s'il y a une pièce noire sur la case[x+1][y-1] ou case[x+1][y+1]
+                else if (j ==tabJoueur[indicePiece][1] - 1 || j== tabJoueur[indicePiece][1]+1) {
+                    if (caseDisponible(i, j, tabJoueur))
+                        possible= true;
+                }
+            }
+            // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x+2][y]
+            else if (tabJoueur[indicePiece][0] + 2 == i) {
+                if (caseDisponible(i-1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
+                    possible= true;
+            }
+        }
+        else if(couleur==1){
+            // Voir quand le pion essaie d'aller une ligne plus loin
+            if (tabJoueur[indicePiece][0]-1==i) {
+                // Voir s'il y a une pièce blanche sur la case[x-1][y]
+                if (tabJoueur[indicePiece][1] == j) {
+                    if (caseDisponible(i, j, tabEnnemi))
+                        possible= true;
+                }
+                // Voir s'il y a une pièce blanche (adverse) sur la case[x-1][y-1] ou sur la case[x-1][y+1]
+                else if (j == tabJoueur[indicePiece][1] - 1 || j== tabJoueur[indicePiece][1] + 1) {
+                    if (caseDisponible(i, j, tabJoueur))
+                        possible= true;
+                }
+            }
+            // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x-2][y]
+            else if (tabJoueur[indicePiece][0] - 2 == i) {
+                if (caseDisponible(i+1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
+                    possible= true;
+            }
+        }
+        return possible;
+    }
