@@ -16,8 +16,10 @@ public static boolean deplacementPion(int indicePiece, int i, int j, int couleur
             }
             // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x+2][y]
             else if (tabJoueur[indicePiece][0] + 2 == i) {
-                if (caseDisponible(i-1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
-                    possible= true;
+                if (tabJoueur[indicePiece][1]== j) {
+                    if (caseDisponible(i - 1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
+                        possible = true;
+                }
             }
         }
         else if(couleur==1){
@@ -36,8 +38,10 @@ public static boolean deplacementPion(int indicePiece, int i, int j, int couleur
             }
             // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x-2][y]
             else if (tabJoueur[indicePiece][0] - 2 == i) {
-                if (caseDisponible(i+1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
-                    possible= true;
+                if (tabJoueur[indicePiece][1]== j) {
+                    if (caseDisponible(i + 1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
+                        possible = true;
+                }
             }
         }
         return possible;
