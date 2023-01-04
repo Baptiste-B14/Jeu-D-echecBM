@@ -330,9 +330,9 @@ public class Fonction {
             yRoi = tabJoueur[0][1];
             for (int k=1; k<tabEnnemi.length ; k++){//k commence a 1 car on ne peut pas mettre en echec avec un roi
                 if (tabEnnemi[k][0] >= 0){
-                    if (verificationDeplacementPossible(tabEnnemi, tabJoueur,  k, xRoi, yRoi, couleur ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) {
+                    if (verificationDeplacementPossible(tabEnnemi, tabJoueur,  k, xRoi, yRoi, ((couleur+1)%2) ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) {
 
-                        String sCouleur = "";
+                        String sCouleur;
                         if (couleur == 1) sCouleur = "noir";
                         else sCouleur = "blanc";
 
@@ -370,8 +370,8 @@ public class Fonction {
             }
 
         }else{
-            for(int i = 0; i<tblanc.length; i++){
-                for(int j =0; j<tblanc[i].length; j++) {
+            for(int i = 0; i<tnoir.length; i++){
+                for(int j =0; j<tnoir[i].length; j++) {
                     tabJoueur[i][j] = tnoir[i][j];
                     tabEnnemi[i][j] = tblanc[i][j];
                 }
@@ -390,8 +390,8 @@ public class Fonction {
                     // On s'assure que la pièce manipulée n'est pas hors-jeu :
                     if (tabEnnemi[indicePiece][0]>=0)
                         // On vérifie si la pièce peut aller aux coordonnées de la case(x;y)
-                        if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(tabJoueur, tabEnnemi, indicePiece, x, y, couleur) && verificationDuChemin(indicePiece, x, y, tabJoueur, tabEnnemi)) {
-                            actualisationEchiquier(x, y, indicePiece, couleur, tabJoueur, tabEnnemi);
+                        if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(tabEnnemi, tabJoueur, indicePiece, x, y, ((couleur+1)%2)) && verificationDuChemin(indicePiece, x, y, tabEnnemi, tabJoueur)) {
+                            actualisationEchiquier(x, y, indicePiece, ((couleur+1)%2), tabEnnemi, tabJoueur);
                             if (!echecRoi(couleur, tabEnnemi,tabJoueur))//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
                                 return false;
 
@@ -409,8 +409,8 @@ public class Fonction {
                                 }
 
                             }else{
-                                for(int i = 0; i<tblanc.length; i++){
-                                    for(int j =0; j<tblanc[i].length; j++) {
+                                for(int i = 0; i<tnoir.length; i++){
+                                    for(int j =0; j<tnoir[i].length; j++) {
                                         tabJoueur[i][j] = tnoir[i][j];
                                         tabEnnemi[i][j] = tblanc[i][j];
                                     }
