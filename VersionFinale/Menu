@@ -42,8 +42,8 @@ public class Menu {
                     }
 
                 } else {
-                    for (int i = 0; i < tblanc.length; i++) {
-                        for (int j = 0; j < tblanc[i].length; j++) {
+                    for (int i = 0; i < tnoir.length; i++) {
+                        for (int j = 0; j < tnoir[i].length; j++) {
                             tabJoueur[i][j] = tnoir[i][j];
                             tabEnnemi[i][j] = tblanc[i][j];
                         }
