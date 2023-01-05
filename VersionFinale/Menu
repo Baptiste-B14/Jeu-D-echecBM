@@ -24,7 +24,7 @@ public class Menu {
         int[] position = new int[2];
 
 
-
+        //boucle de partie (on en sort lorsque échecEtMat)
         do {
 
 
@@ -33,7 +33,8 @@ public class Menu {
             else sCouleur = "blanc";
 
             System.out.println("Tour n°" + tour + " Joueur : " + sCouleur);
-
+            
+            //boucle de chaque tour (saisie valide)
             do {
                 tabJoueur = new int[16][2];
                 tabEnnemi= new int[16][2];
@@ -42,7 +43,7 @@ public class Menu {
 
                 //Joueur en cours.
                 if (couleur == 0) {//copie par for
-
+                    //On fait correspondre le tableau du joueur en cours à sa couleur
                     for (int i = 0; i < tblanc.length; i++) {
                         for (int j = 0; j < tblanc[i].length; j++) {
                             tabJoueur[i][j] = tblanc[i][j];
@@ -59,9 +60,9 @@ public class Menu {
                     }
 
                 }
-
+                //Dans cette boucle, on demande le coup du joueur et on vérifie qu'il soit faisable
                 do {
-
+            
 
                     do {
 
@@ -71,7 +72,6 @@ public class Menu {
                             piece = Fonction.demandeSaisie(tabJoueur);
 
                             //Demande la future position de la pièce.
-
                             position = Fonction.demandePosition();
 
 
@@ -88,6 +88,8 @@ public class Menu {
                     System.out.println("schema de deplacement valide");
                 } while (!Fonction.verificationDuChemin(piece, position[0], position[1], tabJoueur, tabEnnemi));
                 System.out.println("pas d'obstacle");
+                //Une fois avoir vérifié que le coup est possible, on actualise l'échiquier qui n'est toujours pas permanent
+                // pour voir si le roi du joueur est mis en échec.
                 Fonction.actualisationEchiquier(position[0], position[1], piece, tabJoueur, tabEnnemi);
 
 
@@ -95,6 +97,7 @@ public class Menu {
 
 
             //Joueur en cours.
+            //Après avoir actualisé l'échiquier avec le nouveau coup du joueur, on rend cet échiquier permanent.
             if (couleur == 0) {
                 tblanc = tabJoueur;
                 tnoir = tabEnnemi;
@@ -106,7 +109,7 @@ public class Menu {
 
             //affichage()
 
-
+            // On teste d'abord si le roi adverse est en échec, puis on vérifie s'il est mis en échec et Mat
             if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur)) {//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
                 echecEtMat = Fonction.echecEtMat(tblanc, tnoir, couleur, tour);
             }
