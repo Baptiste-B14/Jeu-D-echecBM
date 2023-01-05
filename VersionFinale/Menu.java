@@ -37,23 +37,18 @@ public class Menu {
                 tabEnnemi = new int[16][2];
 
                 //Joueur en cours.
-                if (couleur == 0) {//copie par for
-
-                    for (int i = 0; i < tblanc.length; i++) {
+                if (couleur == 0) {
+                    for (int i = 0; i < tblanc.length; i++) 
                         for (int j = 0; j < tblanc[i].length; j++) {
                             tabJoueur[i][j] = tblanc[i][j];
                             tabEnnemi[i][j] = tnoir[i][j];
                         }
-                    }
-
                 } else {
-                    for (int i = 0; i < tnoir.length; i++) {
+                    for (int i = 0; i < tnoir.length; i++) 
                         for (int j = 0; j < tnoir[i].length; j++) {
                             tabJoueur[i][j] = tnoir[i][j];
                             tabEnnemi[i][j] = tblanc[i][j];
                         }
-                    }
-
                 }
 
                 do {
@@ -71,12 +66,9 @@ public class Menu {
                             //on peut vérifier que la position est correcte.
 
                         } while (!Fonction.caseDisponible(position[0], position[1], tabJoueur));
-
                     } while (!Fonction.verificationDeplacementPossible(indicePiece, position[0], position[1], couleur, tabJoueur, tabEnnemi));
-
                 } while (!Fonction.verificationDuChemin(indicePiece, position[0], position[1], tabJoueur, tabEnnemi));
                 Fonction.actualisationEchiquier(indicePiece, position[0], position[1], tabJoueur, tabEnnemi);
-
             } while (Fonction.echecRoi(couleur, tabJoueur, tabEnnemi));//Tant que echec, alors on doit choisir une position valide
 
             //Joueur en cours.
