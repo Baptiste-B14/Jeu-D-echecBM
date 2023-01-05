@@ -62,7 +62,7 @@ public class Fonction {
 
 
     public static boolean caseDisponible (int i, int j, int[][] tabJoueur){
-
+        // On vérifie si la case sélectionnée n'est pas déjà occupée par un pion de la même couleur
         for (int k = 0; k < tabJoueur.length; k++) {
             if (tabJoueur[k][0] == i && tabJoueur[k][1] == j) {
                 System.out.println("La case est déjà occupée par une de vos pièces");
@@ -312,10 +312,12 @@ public class Fonction {
     public static boolean echecRoi (int couleur, int[][] tabJoueur, int[][]tabEnnemi){
         int xRoi;
         int yRoi;
-
+        // On vérifie si le Roi du joueur est mis en échec.
         xRoi = tabJoueur[0][0];
         yRoi = tabJoueur[0][1];
+        // On parcourt toutes les pièces ennemies pour voir si au moins une met en échec le roi du joueur.
         for (int k=1; k<tabEnnemi.length ; k++){//k commence a 1 car on ne peut pas mettre en echec avec un roi
+            //On vérifie qu'on travaille avec une pièce 
             if (tabEnnemi[k][0] >= 0){
                 if (verificationDeplacementPossible(tabEnnemi, tabJoueur,  k, xRoi, yRoi, ((couleur+1)%2) ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) {
 
@@ -328,8 +330,7 @@ public class Fonction {
                 }
             }
         }
-
-
+        
         return false;
     }
 
