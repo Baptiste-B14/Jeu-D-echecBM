@@ -2,13 +2,10 @@ import java.util.Scanner;
 
 public class Fonction {
 
-
     public static int demandeSaisie( int[][] tabJoueur){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
         boolean caseNonVide = false;
-
-
 
         do {
             String CaseEchiquier = "";
@@ -55,11 +52,9 @@ public class Fonction {
                 return false;
             }
         }
-
         return true;
 
     }
-
 
     public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][]){
         boolean possible = false;
@@ -232,41 +227,32 @@ public class Fonction {
 
     public static boolean verificationDuCheminFou (int indicePiece, int i, int j, int[][]tabJoueur, int [][]tabEnnemi){
         int x, y;
-
         x=tabJoueur[indicePiece][0];
         y=tabJoueur[indicePiece][1];
 
-
         //Partie en haut
         if (j > y){
-
             if (i > x) {//Partie en haut à droite
                 for (int k = 1; x + k < i; k++)
                     if (!caseDisponible(x + k, y + k, tabJoueur) || !caseDisponible(x + k, y + k, tabEnnemi))
                         return false;
-
             }else//Partie en haut à gauche
                 for (int k = 1; x - k > i; k++)
                     if (!caseDisponible(x - k, y + k, tabJoueur) || !caseDisponible(x - k, y + k, tabEnnemi))
                         return false;
-
         }else//Partie en bas
-
             if (i > x){//Partie en bas à droite
                 for (int k = 1; x + k < i; k++) {
                     if (!caseDisponible(x + k, y - k, tabJoueur)  || !caseDisponible(x + k, y - k, tabEnnemi))
                         return false;
                 }
-
             }else {//Partie en bas à gauche
                 for (int k = 1; x - k > i; k++) {
                     if (!caseDisponible(x - k, y - k, tabJoueur) || !caseDisponible(x - k, y - k, tabEnnemi))
                         return false;
                 }
-
             }
         return true;
-
     }
 
     public static void actualisationEchiquier( int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
