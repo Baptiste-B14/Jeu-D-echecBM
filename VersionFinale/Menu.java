@@ -27,7 +27,6 @@ public class Menu {
 
         do {
 
-
             couleur = tour % 2;
             if (couleur == 1) sCouleur = "noir";
             else sCouleur = "blanc";
@@ -59,10 +58,7 @@ public class Menu {
                 }
 
                 do {
-
-
                     do {
-
                         do {
                             //Demande de selection du pion.
                             //Saisie forcée d'un pion valide
@@ -72,25 +68,17 @@ public class Menu {
 
                             position = Fonction.demandePosition();
 
-
                             //Pas d'echec et mat (testé à la fin du tour précédent. Comme la position demandé ne met pas en echec
                             //on peut vérifier que la position est correcte.
 
-
                         } while (!Fonction.caseDisponible(position[0], position[1], tabJoueur));
-                        System.out.println("case Dispo");
-
 
                     } while (!Fonction.verificationDeplacementPossible(tabJoueur, tabEnnemi, piece, position[0], position[1], couleur));
 
-                    System.out.println("schema de deplacement valide");
                 } while (!Fonction.verificationDuChemin(piece, position[0], position[1], tabJoueur, tabEnnemi));
-                System.out.println("pas d'obstacle");
                 Fonction.actualisationEchiquier(position[0], position[1], piece, tabJoueur, tabEnnemi);
 
-
             } while (Fonction.echecRoi(couleur,  tabJoueur,tabEnnemi));//Tant que echec, alors on doit choisir une position valide
-
 
             //Joueur en cours.
             if (couleur == 0) {
@@ -101,22 +89,16 @@ public class Menu {
                 tblanc = tabEnnemi;
             }
             Affichage.printBoard(tblanc, tnoir);
-
             //affichage()
-
 
             if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur)) {//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
                 echecEtMat = Fonction.echecEtMat(tblanc, tnoir, couleur, tour);
             }
 
-
             tour++;
 
         }while(!echecEtMat);
 
-
-
     }//menu()
-
 
 }//class menu
