@@ -85,9 +85,7 @@ public class Menu {
                 echecEtMat = Fonction.echecEtMat(couleur, tblanc, tnoir);
 
             tour++;
-
+            
         }while(!echecEtMat);
-
     }//menu()
-
 }//class menu
