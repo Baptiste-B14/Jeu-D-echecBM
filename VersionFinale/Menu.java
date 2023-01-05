@@ -62,7 +62,7 @@ public class Menu {
                         do {
                             //Demande de selection du pion.
                             //Saisie forcée d'un pion valide
-                            piece = Fonction.demandeSaisie(tabJoueur);
+                            indicePiece = Fonction.demandeSaisie(tabJoueur);
 
                             //Demande la future position de la pièce.
 
@@ -73,12 +73,12 @@ public class Menu {
 
                         } while (!Fonction.caseDisponible(position[0], position[1], tabJoueur));
 
-                    } while (!Fonction.verificationDeplacementPossible(tabJoueur, tabEnnemi, piece, position[0], position[1], couleur));
+                    } while (!Fonction.verificationDeplacementPossible(indicePiece, position[0], position[1], couleur, tabJoueur, tabEnnemi));
 
-                } while (!Fonction.verificationDuChemin(piece, position[0], position[1], tabJoueur, tabEnnemi));
-                Fonction.actualisationEchiquier(position[0], position[1], piece, tabJoueur, tabEnnemi);
+                } while (!Fonction.verificationDuChemin(indicePiece, position[0], position[1], tabJoueur, tabEnnemi));
+                Fonction.actualisationEchiquier(indicePiece, position[0], position[1], tabJoueur, tabEnnemi);
 
-            } while (Fonction.echecRoi(couleur,  tabJoueur,tabEnnemi));//Tant que echec, alors on doit choisir une position valide
+            } while (Fonction.echecRoi(couleur, tabJoueur, tabEnnemi));//Tant que echec, alors on doit choisir une position valide
 
             //Joueur en cours.
             if (couleur == 0) {
@@ -91,9 +91,8 @@ public class Menu {
             Affichage.printBoard(tblanc, tnoir);
             //affichage()
 
-            if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur)) {//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
-                echecEtMat = Fonction.echecEtMat(tblanc, tnoir, couleur, tour);
-            }
+            if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur))
+                echecEtMat = Fonction.echecEtMat(tblanc, tnoir, couleur);
 
             tour++;
 
