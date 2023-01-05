@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Fonction {
 
-    public static int demandeSaisie( int[][] tabJoueur){
+    public static int demandeSaisie( int[][] tabJoueur){//demande quelle pièce le joueur veut saisir
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
         boolean caseNonVide = false;
