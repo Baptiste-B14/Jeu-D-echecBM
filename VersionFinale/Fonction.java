@@ -59,12 +59,12 @@ public class Fonction {
     public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][]){
         boolean possible = false;
 
-        if(indice == 0) possible = deplacementRoi(indicePiece, i, j, tabJoueur);
-        else if(indice == 1) possible = deplacementReine(indicePiece, i, j, tabJoueur);
-        else if(indice == 2 || indice == 3) possible = deplacementFou(indicePiece, i, j, tabJoueur);
-        else if(indice == 4 || indice == 5) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
-        else if(indice == 6 || indice == 7) possible = deplacementTour(indicePiece, i, j, tabJoueur);
-        else if(indice >7 ) possible = deplacementPion(indicePiece, i, j, couleur, tabJoueur, tabEnnemi);
+        if(indicePiece == 0) possible = deplacementRoi(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 1) possible = deplacementReine(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 2 || indicePiece == 3) possible = deplacementFou(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 4 || indicePiece == 5) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 6 || indicePiece == 7) possible = deplacementTour(indicePiece, i, j, tabJoueur);
+        else if(indicePiece >7 ) possible = deplacementPion(indicePiece, i, j, couleur, tabJoueur, tabEnnemi);
         
         return possible;
     }
@@ -247,8 +247,8 @@ public class Fonction {
                 tabEnnemi[parcours][1] = -1;
             }
         }
-        tabJoueur[indice][0] = i;
-        tabJoueur[indice][1] = j;
+        tabJoueur[indicePiece][0] = i;
+        tabJoueur[indicePiece][1] = j;
     }
 
     public static boolean echecRoi (int couleur, int[][] tabJoueur, int[][]tabEnnemi){
@@ -261,7 +261,7 @@ public class Fonction {
         for (int k=1; k<tabEnnemi.length ; k++){//k commence a 1 car on ne peut pas mettre en echec avec un roi
             //On vérifie qu'on travaille avec une pièce 
             if (tabEnnemi[k][0] >= 0){
-                if (verificationDeplacementPossible(k, xRoi, yRoi, ((couleur+1)%2),tabEnnemi, tabJoueur, ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) return true;
+                if (verificationDeplacementPossible(k, xRoi, yRoi, ((couleur+1)%2),tabEnnemi, tabJoueur ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) return true;
             }
         }
         
