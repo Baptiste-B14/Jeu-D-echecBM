@@ -17,10 +17,9 @@ public class Menu {
         String sCouleur;
         boolean echecEtMat = false;
         int tour = 0;
-        int[][] tabJoueur;
-        int[][] tabEnnemi;
+        int[][] tabJoueur, tabEnnemi;
 
-        int piece;
+        int indicePiece;
         int[] position = new int[2];
 
         Affichage.printBoard(tblanc, tnoir);
