@@ -11,55 +11,41 @@ public class Fonction {
 
 
         do {
-
             String CaseEchiquier = "";
             do {
-
                 System.out.println("Saisir la position de la pièce à déplacer: (format Lettre Chiffre: B5)");
                 CaseEchiquier = sc.nextLine().toUpperCase();
-
             } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
-
-
+            
             for (int i = 0; i < tabJoueur.length; i++) {
                 if ((tabJoueur[i][0] == CaseEchiquier.charAt(0) - 65) && tabJoueur[i][1] == CaseEchiquier.charAt(1) - 49) {
                     indicePiece = i;
                     caseNonVide = true;
                 }
-
-
             }
             if(!caseNonVide) System.out.println("La case est vide ou contient une pièce qui n'est pas a vous");
-
         }while(!caseNonVide);
+        
         System.out.println("Pièce selectionnée.");
         return indicePiece;
-
     }
 
     public static int[] demandePosition(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
-
         int[] position = new int[2];
-
-
-
-        String CaseEchiquier = "";
+        String CaseEchiquier;
+        
         do {
-
             System.out.println("Saisir une position : (format Lettre Chiffre: B5)");
             CaseEchiquier = sc.nextLine().toUpperCase();
-
         }while(CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
 
         position[0] = CaseEchiquier.charAt(0) - 65;
         position[1] = CaseEchiquier.charAt(1) - 49;
 
-
         System.out.println("Case selectionnée : " + position[0]+ " " + position[1]);
         return position;
     }
-
 
     public static boolean caseDisponible (int i, int j, int[][] tabJoueur){
         // On vérifie si la case sélectionnée n'est pas déjà occupée par un pion de la même couleur
