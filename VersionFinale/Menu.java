@@ -92,7 +92,7 @@ public class Menu {
             //affichage()
 
             if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur))
-                echecEtMat = Fonction.echecEtMat(tblanc, tnoir, couleur);
+                echecEtMat = Fonction.echecEtMat(couleur, tblanc, tnoir);
 
             tour++;
 
