@@ -43,6 +43,11 @@ public class Fonction {
         return indicePiece;
     }
 
+    
+    /*
+    * La fonction demandePosition fonctionne de façon similaire à demandeSaisie. Son but est de forcer l'utilisateur a donner une position correcte.
+    * @return un tableau de int contenant les positions x et y de la case visée.
+    */
     public static int[] demandePosition(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int[] position = new int[2];
