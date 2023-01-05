@@ -2,19 +2,19 @@ import java.util.Scanner;
 
 public class Fonction {
 
-    public static int demandeSaisie( int[][] tabJoueur){
+    public static int demandeSaisie( int[][] tabJoueur){//demande quelle pièce le joueur veut saisir
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
         boolean caseNonVide = false;
 
         do {
             String CaseEchiquier = "";
-            do {
+            do {//force la saisie du case valide selon le format LettreChiffre entre A et H et 1 et 8
                 System.out.println("Saisir la position de la pièce à déplacer: (format Lettre Chiffre: B5)");
                 CaseEchiquier = sc.nextLine().toUpperCase();
             } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
             
-            for (int i = 0; i < tabJoueur.length; i++) {
+            for (int i = 0; i < tabJoueur.length; i++) {//recherche si la case demandé contient une pièces du joueur.
                 if ((tabJoueur[i][0] == CaseEchiquier.charAt(0) - 65) && tabJoueur[i][1] == CaseEchiquier.charAt(1) - 49) {
                     indicePiece = i;
                     caseNonVide = true;
@@ -152,6 +152,9 @@ public class Fonction {
     public static boolean deplacementRoi(int indice, int i, int j,int tabJoueur[][]){
         int x = tabJoueur[indice][0];
         int y = tabJoueur[indice][1];
+
+
+
         return ((Math.abs(y-j) == 1 && Math.abs(x-i) ==0) || (Math.abs(y-j) == 0 && Math.abs(x-i) ==1) || (Math.abs(y-j) == 1 && Math.abs(x-i) ==1));
     }
 
@@ -159,13 +162,17 @@ public class Fonction {
     public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
         boolean possible=false;
         if(indicePiece==1) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
+
         else if(indicePiece == 2 || indicePiece==3) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur, tabEnnemi);
+
+
         else if(indicePiece==6 || indicePiece==7) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
+
         else possible = true;
 
         if(!possible)
             System.out.println("La case est inatteignable");
-        
+
         return possible;
     }
 
@@ -174,35 +181,44 @@ public class Fonction {
         x = tabJoueur[indice][0];
         y = tabJoueur[indice][1];
 
+
         if(x-i > 0){  // meme ligne, changement de colonne vers la gauche
             for(int k=1; k < Math.abs(x-i); k++){
                 if(!caseDisponible(x-k, y, tabJoueur) || !caseDisponible(x-k, y, tabEnnemi)){
                     return false;
                 }
+
             }
         }
+
         if(x-i < 0){  // meme ligne changement de colonne vers la droite
             for(int k=1; k < Math.abs(x-i); k++){
                 if(!caseDisponible(x+k, y,tabJoueur)|| !caseDisponible(x+k, y, tabEnnemi)){
                     return false;
                 }
+
             }
         }
+
         if(y-j < 0){ // meme colonne changement de ligne vers le bas
             for(int k=1; k < Math.abs(y-j); k++){
                 if(!caseDisponible(x, y+k, tabJoueur)|| !caseDisponible(x, y+k, tabEnnemi)){
                     return false;
                 }
+
             }
         }
+
         if(y-j > 0){ // meme colonne changement de ligne vers le haut
-            for(int k=1; k < Math.abs(y-j); k++){
-                if(!caseDisponible(x, y-k, tabJoueur)|| !caseDisponible(x, y-k, tabEnnemi)){
-                    return false;
-                }
+
+                for(int k=1; k < Math.abs(y-j); k++){
+                    if(!caseDisponible(x, y-k, tabJoueur)|| !caseDisponible(x, y-k, tabEnnemi)){
+                        return false;
+                    }
             }
         }
         return true;
+
     }
 
     public static boolean verificationDuCheminDame(int indice, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
@@ -240,7 +256,7 @@ public class Fonction {
     }
 
     public static void actualisationEchiquier( int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
-        
+
         for(int parcours = 0; parcours<tabEnnemi.length; parcours++){
             if((tabEnnemi[parcours][0] == i) && (tabEnnemi[parcours][1] == j)){
                 tabEnnemi[parcours][0] = -1;
@@ -332,7 +348,7 @@ public class Fonction {
                     }
         }
 
-        System.out.println("Le joueur adverse est en échec, vous avez gagné !");
+        System.out.println("Vous avez gagné !");
         return true;
     }
 
