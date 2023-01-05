@@ -61,26 +61,16 @@ public class Fonction {
     }
 
 
-    public static boolean verificationDeplacementPossible(int tabJoueur[][],int tabEnnemi[][], int indice, int i, int j, int couleur){
+    public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][]){
         boolean possible = false;
 
-
-
-        if(indice == 0) possible = deplacementRoi(indice, i, j, tabJoueur);
-
-
-        else if(indice == 1) possible = deplacementReine(indice, i, j, tabJoueur);
-
-        else if(indice == 2 || indice == 3) possible = deplacementFou(indice, i, j, tabJoueur);
-
-        else if(indice == 4 || indice == 5) possible = deplacementCavalier(indice, i, j, tabJoueur);
-
-        else if(indice == 6 || indice == 7) possible = deplacementTour(indice, i, j, tabJoueur);
-
-        else if(indice >7 ) possible = deplacementPion(indice, i, j, couleur, tabJoueur, tabEnnemi);
-
-        if(possible==false)System.out.println("Ce déplacement ne correspond pas à la pièce sélectionnée");
-
+        if(indice == 0) possible = deplacementRoi(indicePiece, i, j, tabJoueur);
+        else if(indice == 1) possible = deplacementReine(indicePiece, i, j, tabJoueur);
+        else if(indice == 2 || indice == 3) possible = deplacementFou(indicePiece, i, j, tabJoueur);
+        else if(indice == 4 || indice == 5) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
+        else if(indice == 6 || indice == 7) possible = deplacementTour(indicePiece, i, j, tabJoueur);
+        else if(indice >7 ) possible = deplacementPion(indicePiece, i, j, couleur, tabJoueur, tabEnnemi);
+        
         return possible;
     }
 
@@ -279,9 +269,7 @@ public class Fonction {
 
     }
 
-    public static void actualisationEchiquier(int i , int j, int indice, int[][] tabJoueur, int[][]tabEnnemi){
-
-
+    public static void actualisationEchiquier( int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
 
         for(int parcours = 0; parcours<tabEnnemi.length; parcours++){
             if((tabEnnemi[parcours][0] == i) && (tabEnnemi[parcours][1] == j)){
@@ -291,9 +279,7 @@ public class Fonction {
         }
         tabJoueur[indice][0] = i;
         tabJoueur[indice][1] = j;
-
     }
-
 
     public static boolean echecRoi (int couleur, int[][] tabJoueur, int[][]tabEnnemi){
         int xRoi;
@@ -305,23 +291,14 @@ public class Fonction {
         for (int k=1; k<tabEnnemi.length ; k++){//k commence a 1 car on ne peut pas mettre en echec avec un roi
             //On vérifie qu'on travaille avec une pièce 
             if (tabEnnemi[k][0] >= 0){
-                if (verificationDeplacementPossible(tabEnnemi, tabJoueur,  k, xRoi, yRoi, ((couleur+1)%2) ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) {
-
-                    String sCouleur;
-                    if (couleur == 1) sCouleur = "noir";
-                    else sCouleur = "blanc";
-
-                    System.out.println("Le roi de la couleur " + sCouleur + " est en echec.");
-                    return true;
-                }
+                if (verificationDeplacementPossible(k, xRoi, yRoi, ((couleur+1)%2),tabEnnemi, tabJoueur, ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) return true;
             }
         }
         
         return false;
     }
 
-
-    public static boolean echecEtMat(int[][] tblanc, int [][] tnoir, int couleur, int tour){
+    public static boolean echecEtMat(int couleur, int[][] tblanc, int [][] tnoir){
         // On parcourt toutes les pièces du joueur ennemi pour voir si chacun de leur déplacement
         // ne permettrait pas d'éviter l'échec du roi
         int x, y;
@@ -330,19 +307,16 @@ public class Fonction {
         int[][] tabEnnemi = new int[16][2];
         //
         //
-        //
         // On met les tableaux fictifs à la valeur des tableaux permanents
 
         //Joueur en cours.
-        if (tour % 2 == 0) {//copie par for
-
+        if (couleur == 0) {//copie par for
             for(int i = 0; i<tblanc.length; i++){
                 for(int j =0; j<tblanc[i].length; j++) {
                     tabJoueur[i][j] = tblanc[i][j];
                     tabEnnemi[i][j] = tnoir[i][j];
                 }
             }
-
         }else{
             for(int i = 0; i<tnoir.length; i++){
                 for(int j =0; j<tnoir[i].length; j++) {
@@ -350,10 +324,8 @@ public class Fonction {
                     tabEnnemi[i][j] = tblanc[i][j];
                 }
             }
-
         }
-        //
-        //
+        
         // On cherche à parcourir les 64 cases de l'échiquier
         for (int Case=0; Case<64; Case++){
             // On prend les coordonnées de chaque case
@@ -364,24 +336,21 @@ public class Fonction {
                 // On s'assure que la pièce manipulée n'est pas hors-jeu :
                 if (tabEnnemi[indicePiece][0]>=0)
                     // On vérifie si la pièce peut aller aux coordonnées de la case(x;y)
-                    if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(tabEnnemi, tabJoueur, indicePiece, x, y, ((couleur+1)%2)) && verificationDuChemin(indicePiece, x, y, tabEnnemi, tabJoueur)) {
-                        actualisationEchiquier(x, y, indicePiece, tabEnnemi, tabJoueur);
+                    if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(indicePiece, x, y, ((couleur+1)%2), tabEnnemi, tabJoueur) && verificationDuChemin(indicePiece, x, y, tabEnnemi, tabJoueur)) {
+                        actualisationEchiquier(indicePiece, x, y, tabEnnemi, tabJoueur);
                         if (!echecRoi(((couleur+1)%2), tabEnnemi,tabJoueur))//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
                             return false;
 
                         // On ré-actualise les tableaux d'origine
                         // Pour ne pas enregistrer le déplacement fictif de la pièce
 
-
-                        if (tour % 2 == 0) {//copie par for
-
+                        if (couleur == 0) {//copie par for
                             for(int i = 0; i<tblanc.length; i++){
                                 for(int j =0; j<tblanc[i].length; j++) {
                                     tabJoueur[i][j] = tblanc[i][j];
                                     tabEnnemi[i][j] = tnoir[i][j];
                                 }
                             }
-
                         }else{
                             for(int i = 0; i<tnoir.length; i++){
                                 for(int j =0; j<tnoir[i].length; j++) {
@@ -389,7 +358,6 @@ public class Fonction {
                                     tabEnnemi[i][j] = tblanc[i][j];
                                 }
                             }
-
                         }
                     }
         }
