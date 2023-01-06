@@ -1,8 +1,7 @@
 
 
-
 public class Menu {
-    public static void menu(){
+    public static void menu(int niveau, boolean blitz){
 
         //Declaration et initialisation des tableaux de positionnement
         // tableau = {{Roi},{Dame},{Fou},{Fou},{Cavalier},{Cavalier},{Tour},{Tour},{Pion},{Pion},{Pion},{Pion},{Pion},{Pion},{Pion},{Pion}};
@@ -44,7 +43,9 @@ public class Menu {
         boolean echecEtMat = false;
         int tour = 0;
         int[][] tabJoueur, tabEnnemi;
-        char[] promoJoueur;
+        char[] promoJoueur, promoEnnemi;
+        long chronoBlanc;
+        long chronoNoir;
 
         int indicePiece;
         int[] position = new int[2];
@@ -63,6 +64,7 @@ public class Menu {
                 tabJoueur = new int[16][2];
                 tabEnnemi = new int[16][2];
                 promoJoueur = new char[8];
+                promoEnnemi = new char[8];
 
 
                 //Joueur en cours.
@@ -74,6 +76,7 @@ public class Menu {
                         }
                     for(int i = 0; i<pBlanc.length; i++){
                         promoJoueur[i] = pBlanc[i];
+                        promoEnnemi[i] = pNoir[i];
                     }
                 } else {
                     for (int i = 0; i < tnoir.length; i++)
@@ -83,6 +86,7 @@ public class Menu {
                         }
                     for(int i = 0; i<pNoir.length; i++){
                         promoJoueur[i] = pNoir[i];
+                        promoEnnemi[i] = pBlanc[i];
                     }
                 }
 
@@ -99,12 +103,19 @@ public class Menu {
 
                             //Pas d'echec et mat (testé à la fin du tour précédent. Comme la position demandée ne met pas en echec
                             //on peut vérifier que la position est correcte.
-
+                            if(!Fonction.caseDisponible(position[0], position[1], tabJoueur))
+                                System.out.println("La case est déjà occupée par une de vos pièces");
                         } while (!Fonction.caseDisponible(position[0], position[1], tabJoueur));
+
+                        if(!Fonction.verificationDeplacementPossible(indicePiece, position[0], position[1], couleur, tabJoueur, tabEnnemi, promoJoueur))
+                            System.out.println("Le déplacement ne correspond pas à la pièce choisit");
                     } while (!Fonction.verificationDeplacementPossible(indicePiece, position[0], position[1], couleur, tabJoueur, tabEnnemi, promoJoueur));
+                    if(!Fonction.verificationDuChemin(indicePiece, position[0], position[1], tabJoueur, tabEnnemi, promoJoueur))
+                        System.out.println("Une pièce se trouve sur le chemin");
                 } while (!Fonction.verificationDuChemin(indicePiece, position[0], position[1], tabJoueur, tabEnnemi, promoJoueur));
                 Fonction.actualisationEchiquier(indicePiece, position[0], position[1], tabJoueur, tabEnnemi);
-            } while (Fonction.echecRoi(couleur, tabJoueur, tabEnnemi, promoJoueur));//Tant que echec, alors on doit choisir une position valide
+                if(Fonction.echecRoi(couleur, tabJoueur, tabEnnemi, promoEnnemi)) System.out.println("Votre roi sera en echec avec ce déplacement");
+            } while (Fonction.echecRoi(couleur, tabJoueur, tabEnnemi, promoEnnemi));//Tant que echec, alors on doit choisir une position valide
 
             if(Fonction.promotionPossible(indicePiece, couleur, tabJoueur, promoJoueur))Fonction.promotion(indicePiece, promoJoueur);
 
@@ -118,12 +129,13 @@ public class Menu {
                 tnoir = tabJoueur;
                 tblanc = tabEnnemi;
                 pNoir = promoJoueur;
+
             }
             Affichage.printBoard(tblanc, tnoir, pBlanc,pNoir);
             //affichage()
 
             if (Fonction.echecRoi(couleur, tabEnnemi, tabJoueur, promoJoueur))
-                echecEtMat = Fonction.echecEtMat(couleur, tblanc, tnoir, pBlanc, pNoir);
+                echecEtMat = Fonction.echecEtMat(couleur, tblanc, tnoir, pBlanc, pNoir, promoEnnemi);
 
             tour++;
 
