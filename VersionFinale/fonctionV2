@@ -48,7 +48,7 @@ public class Fonction {
         // On vérifie si la case sélectionnée n'est pas déjà occupée par un pion de la même couleur
         for (int k = 0; k < tabJoueur.length; k++) {
             if (tabJoueur[k][0] == i && tabJoueur[k][1] == j) {
-                System.out.println("La case est déjà occupée par une de vos pièces");
+
                 return false;
             }
         }
@@ -163,9 +163,6 @@ public class Fonction {
         else if(indicePiece==6 || indicePiece==7 || (indicePiece>7 && promoJoueur[indicePiece-7] == 84)) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
         else possible = true;
 
-        if(!possible)
-            System.out.println("La case est inatteignable");
-
         return possible;
     }
 
@@ -268,14 +265,13 @@ public class Fonction {
         return false;
     }
     // Voir quand le pion essaie d'aller une ligne plus loin
-    public static boolean echecEtMat(int couleur, int[][] tblanc, int [][] tnoir, char[] pBlanc, char[] pNoir){
+    public static boolean echecEtMat(int couleur, int[][] tblanc, int [][] tnoir, char[] pBlanc, char[] pNoir, char[] promoJoueur){
         // On parcourt toutes les pièces du joueur ennemi pour voir si chacun de leur déplacement
         // ne permettrait pas d'éviter l'échec du roi
         int x, y;
         // On déclare les tableaux fictifs
         int[][] tabJoueur = new int[16][2];
         int[][] tabEnnemi = new int[16][2];
-        char[] promoJoueur = new char[8];
         //
         //
         // On met les tableaux fictifs à la valeur des tableaux permanents
@@ -364,7 +360,7 @@ public class Fonction {
             System.out.println("Saisir un type de pièce : Dame | Fou | Cavalier | Tour (D, F, C, T)");
             promotion = sc.nextLine().toUpperCase();
         }while(promotion.length() != 1 || ((promotion.charAt(0) != 67 && promotion.charAt(0) != 68) && (promotion.charAt(0) != 70 && promotion.charAt(0) != 84)));  //67 = c, 68 = d, 70 = f
-        System.out.println("promotion effectué");
+        System.out.println("Promotion effectuée");
         promoJoueur[indicePiece-7] = promotion.charAt(0);
 
 
