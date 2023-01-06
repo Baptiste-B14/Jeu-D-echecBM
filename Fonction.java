@@ -361,7 +361,7 @@ public class Fonction {
         int i=0;
         if (aide){
             while(i<5 && tabSolutions[i][0]>=0) i++;
-            if (i!=5) {tabSolutions[i][0]= x; tabSolutions[i][1]= y;}
+            if (i<5) {tabSolutions[i][0]= x; tabSolutions[i][1]= y;}
             else {return false;}
         }
         else{
