@@ -1,58 +1,37 @@
 import java.util.Scanner;
 
-
-
-/*
-* La classe fonction contient toute les fonctions essentielles au maintient des règles du jeu. Elle comprend donc des méthodes qui permettent la saisie des pièces, la saisie de leur futur déplacement
-* des méthodes qui vérifient que la position donnée est atteignable en respectant le mode de déplacement de la pièces, mais aussi que rien ne gêne son déplacement.
-* La classe contient les methodes qui constituent l'objectif des echecs, a savoir echec, et echec et mat.
-* Ces methodes seront appelées dans la classe Menu au menu opportun.
-*/
 public class Fonction {
-    
-    /**
-    *La fonction demandeSaisie sert a demander au joueur de saisir les coordonées d'une case. Cette case doit contenir une pièce appartenant au joueur.
-    * La saisie est forcée, l'utilisateur n'a d'autre choix que de saisir une case correcte, et contenant l'une de ses pièces.
-    * @param tabJoueur le tableau 2D de int contenant les positions de toutes les pièces du joueur en cours.
-    * @return un int correspondant au type de la pièces. 
-    *
-    */
 
-    public static int demandeSaisie( int[][] tabJoueur){//demande au joueur la case qui contient la pièce à saisir. 
-        Scanner sc = new Scanner(System.in).useDelimiter("\n");//la saisie ne se fait pas en demandant le type de la pièce, mais par la case conteant la pièce.
+    public static int demandeSaisie( int[][] tabJoueur){
+        Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
         boolean caseNonVide = false;
 
         do {
             String CaseEchiquier = "";
-            do {//saisie forcée d'une case existante, respectant le format LettreChiffre
+            do {
                 System.out.println("Saisir la position de la pièce à déplacer: (format Lettre Chiffre: B5)");
                 CaseEchiquier = sc.nextLine().toUpperCase();
             } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
-            //Si la lettre n'est pas comprise entre A et H et le chiffre entre 1 et 8 (comparaison avec le code ASCII), la saisie est recommencée.
-            for (int i = 0; i < tabJoueur.length; i++) {//La boucle for permet de vérifier que la case demandé contient une pièce du joueur
+
+            for (int i = 0; i < tabJoueur.length; i++) {
                 if ((tabJoueur[i][0] == CaseEchiquier.charAt(0) - 65) && tabJoueur[i][1] == CaseEchiquier.charAt(1) - 49) {
                     indicePiece = i;
                     caseNonVide = true;
                 }
             }
             if(!caseNonVide) System.out.println("La case est vide ou contient une pièce qui n'est pas a vous");
-        }while(!caseNonVide);//force la saisie d'une case non vide 
-        
+        }while(!caseNonVide);
+
         System.out.println("Pièce selectionnée.");
         return indicePiece;
     }
 
-    
-    /*
-    * La fonction demandePosition fonctionne de façon similaire à demandeSaisie. Son but est de forcer l'utilisateur a donner une position correcte.
-    * @return un tableau de int contenant les positions x et y de la case visée.
-    */
     public static int[] demandePosition(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int[] position = new int[2];
         String CaseEchiquier;
-        
+
         do {
             System.out.println("Saisir une position : (format Lettre Chiffre: B5)");
             CaseEchiquier = sc.nextLine().toUpperCase();
@@ -69,7 +48,7 @@ public class Fonction {
         // On vérifie si la case sélectionnée n'est pas déjà occupée par un pion de la même couleur
         for (int k = 0; k < tabJoueur.length; k++) {
             if (tabJoueur[k][0] == i && tabJoueur[k][1] == j) {
-                System.out.println("La case est déjà occupée par une de vos pièces");
+
                 return false;
             }
         }
@@ -77,16 +56,16 @@ public class Fonction {
 
     }
 
-    public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][]){
+    public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][], char[] promoJoueur){
         boolean possible = false;
 
         if(indicePiece == 0) possible = deplacementRoi(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 1) possible = deplacementReine(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 2 || indicePiece == 3) possible = deplacementFou(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 4 || indicePiece == 5) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 6 || indicePiece == 7) possible = deplacementTour(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 1 || (indicePiece>7 && promoJoueur[indicePiece-7] == 68)) possible = deplacementReine(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promoJoueur[indicePiece-7] == 70)) possible = deplacementFou(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promoJoueur[indicePiece-7] == 67)) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promoJoueur[indicePiece-7] == 84)) possible = deplacementTour(indicePiece, i, j, tabJoueur);
         else if(indicePiece >7 ) possible = deplacementPion(indicePiece, i, j, couleur, tabJoueur, tabEnnemi);
-        
+//67 = c, 68 = d, 70 = f
         return possible;
     }
 
@@ -102,7 +81,7 @@ public class Fonction {
                 }
                 // Voir s'il y a une pièce noire sur la case[x+1][y-1] ou case[x+1][y+1]
                 else if (j ==tabJoueur[indicePiece][1] - 1 || j== tabJoueur[indicePiece][1]+1) {
-                    if (caseDisponible(i, j, tabJoueur))
+                    if (!caseDisponible(i, j, tabJoueur))
                         possible= true;
                 }
             }
@@ -124,7 +103,7 @@ public class Fonction {
                 }
                 // Voir s'il y a une pièce blanche (adverse) sur la case[x-1][y-1] ou sur la case[x-1][y+1]
                 else if (j == tabJoueur[indicePiece][1] - 1 || j== tabJoueur[indicePiece][1] + 1) {
-                    if (caseDisponible(i, j, tabJoueur))
+                    if (!caseDisponible(i, j, tabJoueur))
                         possible= true;
                 }
             }
@@ -177,16 +156,13 @@ public class Fonction {
     }
 
 
-    public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
+    public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi, char[]promoJoueur){
         boolean possible=false;
-        if(indicePiece==1) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
-        else if(indicePiece == 2 || indicePiece==3) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur, tabEnnemi);
-        else if(indicePiece==6 || indicePiece==7) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
+        if(indicePiece==1 ||  (indicePiece>7 && promoJoueur[indicePiece-7] == 68)) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
+        else if(indicePiece == 2 || indicePiece==3 || (indicePiece>7 && promoJoueur[indicePiece-7] == 70)) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur, tabEnnemi);
+        else if(indicePiece==6 || indicePiece==7 || (indicePiece>7 && promoJoueur[indicePiece-7] == 84)) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
         else possible = true;
 
-        if(!possible)
-            System.out.println("La case est inatteignable");
-        
         return possible;
     }
 
@@ -261,7 +237,7 @@ public class Fonction {
     }
 
     public static void actualisationEchiquier( int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi){
-        
+
         for(int parcours = 0; parcours<tabEnnemi.length; parcours++){
             if((tabEnnemi[parcours][0] == i) && (tabEnnemi[parcours][1] == j)){
                 tabEnnemi[parcours][0] = -1;
@@ -272,7 +248,7 @@ public class Fonction {
         tabJoueur[indicePiece][1] = j;
     }
 
-    public static boolean echecRoi (int couleur, int[][] tabJoueur, int[][]tabEnnemi){
+    public static boolean echecRoi (int couleur, int[][] tabJoueur, int[][]tabEnnemi, char[] promoJoueur){
         int xRoi;
         int yRoi;
         // On vérifie si le Roi du joueur est mis en échec.
@@ -280,19 +256,20 @@ public class Fonction {
         yRoi = tabJoueur[0][1];
         // On parcourt toutes les pièces ennemies pour voir si au moins une met en échec le roi du joueur.
         for (int k=1; k<tabEnnemi.length ; k++){//k commence a 1 car on ne peut pas mettre en echec avec un roi
-            //On vérifie qu'on travaille avec une pièce 
+            //On vérifie qu'on travaille avec une pièce
             if (tabEnnemi[k][0] >= 0){
-                if (verificationDeplacementPossible(k, xRoi, yRoi, ((couleur+1)%2),tabEnnemi, tabJoueur ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur)) return true;
+                if (verificationDeplacementPossible(k, xRoi, yRoi, ((couleur+1)%2),tabEnnemi, tabJoueur, promoJoueur ) && verificationDuChemin (k, xRoi, yRoi, tabEnnemi, tabJoueur, promoJoueur)) return true;
             }
         }
-        
+
         return false;
     }
-// Voir quand le pion essaie d'aller une ligne plus loin
-    public static boolean echecEtMat(int couleur, int[][] tblanc, int [][] tnoir){
+    // Voir quand le pion essaie d'aller une ligne plus loin
+    public static boolean echecEtMat(int couleur, int[][] tblanc, int [][] tnoir, char[] pBlanc, char[] pNoir, char[] promoJoueur, boolean aide, int[][] tabSolutions){
         // On parcourt toutes les pièces du joueur ennemi pour voir si chacun de leur déplacement
         // ne permettrait pas d'éviter l'échec du roi
         int x, y;
+        int nbSolutions=0;
         // On déclare les tableaux fictifs
         int[][] tabJoueur = new int[16][2];
         int[][] tabEnnemi = new int[16][2];
@@ -308,6 +285,9 @@ public class Fonction {
                     tabEnnemi[i][j] = tnoir[i][j];
                 }
             }
+            for(int i = 0; i<pBlanc.length; i++){
+                promoJoueur[i] = pBlanc[i];
+            }
         }else{
             for(int i = 0; i<tnoir.length; i++){
                 for(int j =0; j<tnoir[i].length; j++) {
@@ -315,8 +295,11 @@ public class Fonction {
                     tabEnnemi[i][j] = tblanc[i][j];
                 }
             }
+            for(int i = 0; i<pNoir.length; i++){
+                promoJoueur[i] = pNoir[i];
+            }
         }
-        
+
         // On cherche à parcourir les 64 cases de l'échiquier
         for (int Case=0; Case<64; Case++){
             // On prend les coordonnées de chaque case
@@ -327,11 +310,13 @@ public class Fonction {
                 // On s'assure que la pièce manipulée n'est pas hors-jeu :
                 if (tabEnnemi[indicePiece][0]>=0)
                     // On vérifie si la pièce peut aller aux coordonnées de la case(x;y)
-                    if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(indicePiece, x, y, ((couleur+1)%2), tabEnnemi, tabJoueur) && verificationDuChemin(indicePiece, x, y, tabEnnemi, tabJoueur)) {
+                    if (caseDisponible(x, y, tabEnnemi) && verificationDeplacementPossible(indicePiece, x, y, ((couleur+1)%2), tabEnnemi, tabJoueur, promoJoueur) && verificationDuChemin(indicePiece, x, y, tabEnnemi, tabJoueur, promoJoueur)) {
                         actualisationEchiquier(indicePiece, x, y, tabEnnemi, tabJoueur);
-                        if (!echecRoi(((couleur+1)%2), tabEnnemi,tabJoueur))//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
-                            return false;
-
+                        if (!echecRoi(((couleur+1)%2), tabEnnemi,tabJoueur, promoJoueur)) {//Ne pas modifier l'ordre des tab param. On cherche le roi ennemi (fin du tour)
+                            nbSolutions++;
+                            if (!solutions(aide, x, y, tabSolutions))
+                                return false;
+                        }
                         // On ré-actualise les tableaux d'origine
                         // Pour ne pas enregistrer le déplacement fictif de la pièce
 
@@ -353,7 +338,55 @@ public class Fonction {
                     }
         }
 
-        System.out.println("Le joueur adverse est en échec, vous avez gagné !");
+        if (nbSolutions<1) System.out.println("Le joueur adverse est en échec, vous avez gagné !");
+        return (nbSolutions<1);
+    }
+
+
+    public static boolean promotionPossible(int indicePiece, int couleur, int[][] tabJoueur, char [] promotion){
+        if(indicePiece<7) return false;
+        if(promotion[indicePiece-7] != 'p') return false;
+        int derniereLigne;
+        if(couleur == 0) derniereLigne = 7;
+        else derniereLigne = 0;
+
+        return tabJoueur[indicePiece][0]== derniereLigne;
+    }
+
+
+    public static void promotion(int indicePiece, char[] promoJoueur){
+        Scanner sc = new Scanner(System.in).useDelimiter("\n");
+
+        String promotion;
+
+        do {
+            System.out.println("Saisir un type de pièce : Dame | Fou | Cavalier | Tour (D, F, C, T)");
+            promotion = sc.nextLine().toUpperCase();
+        }while(promotion.length() != 1 || ((promotion.charAt(0) != 67 && promotion.charAt(0) != 68) && (promotion.charAt(0) != 70 && promotion.charAt(0) != 84)));  //67 = c, 68 = d, 70 = f
+        System.out.println("Promotion effectuée");
+        promoJoueur[indicePiece-7] = promotion.charAt(0);
+
+
+    }
+
+    public static boolean solutions (boolean aide, int x, int y, int[][] tabSolutions){
+        int i=0;
+        if (aide){
+            while(i<5 && tabSolutions[i][0]>=0) i++;
+            if (i<5) {
+                int j=0;
+                while(j<i && (tabSolutions[j][0]!=x || tabSolutions[j][1]!=y)) j++;
+                if (j==i) {
+                    tabSolutions[i][0] = x;
+                    tabSolutions[i][1] = y;
+                }
+            }
+            else {return false;}
+        }
+        else{
+            return false;
+        }
         return true;
     }
+
 }
