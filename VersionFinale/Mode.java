@@ -4,13 +4,17 @@ public class Mode {
 
     public static void mode(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
-        int choix;
         boolean blitz;
         String choixBlitz;
+        boolean aide=false;
+        String reponse;
+        System.out.println("Si vous êtes novices, une aide est possible souhaitez-vous en bénéficier ? [Oui/Non]");
+
         do{
-            System.out.println("Choisir votre niveau de difficultée : 1 | 2");
-            choix= sc.nextInt();
-        }while(choix != 1 && choix != 2);
+            reponse = sc.nextLine().toLowerCase();
+        }while(!reponse.equals("oui") && !reponse.equals("non"));
+        if (reponse.equals("oui"))
+            aide=true;
 
         do{
             System.out.println("Mode de jeu blitz ? Oui | Non  ( o, n )");
@@ -21,7 +25,7 @@ public class Mode {
         if(choixBlitz.equals("o"))blitz = true;
         else blitz = false;
 
-        Menu.menu(choix, blitz);
+        Menu.menu(aide, blitz);
     }
 
 
