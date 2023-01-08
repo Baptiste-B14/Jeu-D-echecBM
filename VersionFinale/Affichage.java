@@ -80,7 +80,7 @@ public class Affichage {
 
     public static void affichageSolutions (boolean aide, int[][] tabSolutions){
         char coordonnees;
-        System.out.println("Vérification affichageSolutions");
+        System.out.println();
         if(aide && tabSolutions[0][0]>=0){
             System.out.print("Pour éviter l'échec, vous pouvez déplacer une de vos pièces sur la/les case(s) : ");
             for (int i=0; i<tabSolutions.length && tabSolutions[i][0]>=0; i++){
