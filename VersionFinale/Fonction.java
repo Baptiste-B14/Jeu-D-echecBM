@@ -86,7 +86,7 @@ public class Fonction {
                 }
             }
             // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x+2][y]
-            else if (tabJoueur[indicePiece][0] + 2 == i) {
+            else if (tabJoueur[indicePiece][0] + 2 == i && tabJoueur[indicePiece][0]==1) {
                 if (tabJoueur[indicePiece][1]== j) {
                     if (caseDisponible(i - 1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
                         possible = true;
@@ -108,7 +108,7 @@ public class Fonction {
                 }
             }
             // Voir quand le pion est à l'origine et qu'il veut aller deux cases plus loin case[x-2][y]
-            else if (tabJoueur[indicePiece][0] - 2 == i) {
+            else if (tabJoueur[indicePiece][0] - 2 == i && tabJoueur[indicePiece][0]==6) {
                 if (tabJoueur[indicePiece][1]== j) {
                     if (caseDisponible(i + 1, j, tabEnnemi) && caseDisponible(i, j, tabEnnemi))
                         possible = true;
