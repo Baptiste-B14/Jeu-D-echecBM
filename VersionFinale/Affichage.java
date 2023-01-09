@@ -49,13 +49,13 @@ public class Affichage {
             if (indicePiece == 0) code = 0x2654;//roi noir
 
 
-            else if (indicePiece == 1 || (indicePiece>7 && promotion[indicePiece-7] == 68)) code = 0x2655;//reine noir
+            else if (indicePiece == 1 || (indicePiece>7 && promotion[indicePiece-8] == 68)) code = 0x2655;//reine noir
 
-            else if (indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promotion[indicePiece-7] == 70)) code = 0x2657;//fou noir
+            else if (indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promotion[indicePiece-8] == 70)) code = 0x2657;//fou noir
 
-            else if (indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promotion[indicePiece-7] == 67)) code = 0x2658;//cavalier noir
+            else if (indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promotion[indicePiece-8] == 67)) code = 0x2658;//cavalier noir
 
-            else if (indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promotion[indicePiece-7] == 84)) code = 0x2656;//tour noir
+            else if (indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promotion[indicePiece-8] == 84)) code = 0x2656;//tour noir
 
             else if (indicePiece > 7 ) code = 0x2659;//pion noir
 
@@ -63,13 +63,13 @@ public class Affichage {
             if (indicePiece == 0) code = 0x265A;
 
 
-            else if (indicePiece == 1 || (indicePiece>7 && promotion[indicePiece-7] == 68)) code = 0x265B;
+            else if (indicePiece == 1 || (indicePiece>7 && promotion[indicePiece-8] == 68)) code = 0x265B;
 
-            else if (indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promotion[indicePiece-7] == 70)) code = 0x265D;
+            else if (indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promotion[indicePiece-8] == 70)) code = 0x265D;
 
-            else if (indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promotion[indicePiece-7] == 67)) code = 0x265E;
+            else if (indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promotion[indicePiece-8] == 67)) code = 0x265E;
 
-            else if (indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promotion[indicePiece-7] == 84)) code = 0x265C;
+            else if (indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promotion[indicePiece-8] == 84)) code = 0x265C;
 
             else if (indicePiece > 7 ) code = 0x265F;
         }
@@ -77,6 +77,7 @@ public class Affichage {
         chara = Character.toString((char)code);
         return chara;
     }
+
 
     public static void affichageSolutions (boolean aide, int[][] tabSolutions){
         char coordonnees;
