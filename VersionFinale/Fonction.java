@@ -10,7 +10,7 @@ public class Fonction {
         do {
             String CaseEchiquier = "";
             do {
-                System.out.println("Saisir la position de la pièce à déplacer: (format Lettre Chiffre: B5)");
+                System.out.print("Saisir la position de la pièce à déplacer : ");
                 CaseEchiquier = sc.nextLine().toUpperCase();
             } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
 
@@ -20,10 +20,10 @@ public class Fonction {
                     caseNonVide = true;
                 }
             }
-            if(!caseNonVide) System.out.println("La case est vide ou contient une pièce qui n'est pas a vous");
+            if(!caseNonVide) System.out.println("La case est vide ou contient une pièce qui n'est pas a vous ");
         }while(!caseNonVide);
 
-        System.out.println("Pièce selectionnée.");
+        System.out.print("Pièce selectionnée. ");
         return indicePiece;
     }
 
@@ -33,14 +33,13 @@ public class Fonction {
         String CaseEchiquier;
 
         do {
-            System.out.println("Saisir une position : (format Lettre Chiffre: B5)");
+            System.out.print("Saisir une position : ");
             CaseEchiquier = sc.nextLine().toUpperCase();
         }while(CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
 
         position[0] = CaseEchiquier.charAt(0) - 65;
         position[1] = CaseEchiquier.charAt(1) - 49;
 
-        System.out.println("Case selectionnée : " + position[0]+ " " + position[1]);
         return position;
     }
 
@@ -60,10 +59,10 @@ public class Fonction {
         boolean possible = false;
 
         if(indicePiece == 0) possible = deplacementRoi(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 1 || (indicePiece>7 && promoJoueur[indicePiece-7] == 68)) possible = deplacementReine(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promoJoueur[indicePiece-7] == 70)) possible = deplacementFou(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promoJoueur[indicePiece-7] == 67)) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
-        else if(indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promoJoueur[indicePiece-7] == 84)) possible = deplacementTour(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 1 || (indicePiece>7 && promoJoueur[indicePiece-8] == 68)) possible = deplacementReine(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 2 || indicePiece == 3 || (indicePiece>7 && promoJoueur[indicePiece-8] == 70)) possible = deplacementFou(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 4 || indicePiece == 5 || (indicePiece>7 && promoJoueur[indicePiece-8] == 67)) possible = deplacementCavalier(indicePiece, i, j, tabJoueur);
+        else if(indicePiece == 6 || indicePiece == 7 || (indicePiece>7 && promoJoueur[indicePiece-8] == 84)) possible = deplacementTour(indicePiece, i, j, tabJoueur);
         else if(indicePiece >7 ) possible = deplacementPion(indicePiece, i, j, couleur, tabJoueur, tabEnnemi);
 //67 = c, 68 = d, 70 = f
         return possible;
@@ -81,7 +80,7 @@ public class Fonction {
                 }
                 // Voir s'il y a une pièce noire sur la case[x+1][y-1] ou case[x+1][y+1]
                 else if (j ==tabJoueur[indicePiece][1] - 1 || j== tabJoueur[indicePiece][1]+1) {
-                    if (!caseDisponible(i, j, tabJoueur))
+                    if (!caseDisponible(i, j, tabEnnemi))
                         possible= true;
                 }
             }
@@ -158,9 +157,9 @@ public class Fonction {
 
     public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi, char[]promoJoueur){
         boolean possible=false;
-        if(indicePiece==1 ||  (indicePiece>7 && promoJoueur[indicePiece-7] == 68)) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
-        else if(indicePiece == 2 || indicePiece==3 || (indicePiece>7 && promoJoueur[indicePiece-7] == 70)) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur, tabEnnemi);
-        else if(indicePiece==6 || indicePiece==7 || (indicePiece>7 && promoJoueur[indicePiece-7] == 84)) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
+        if(indicePiece==1 ||  (indicePiece>7 && promoJoueur[indicePiece-8] == 68)) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
+        else if(indicePiece == 2 || indicePiece==3 || (indicePiece>7 && promoJoueur[indicePiece-8] == 70)) possible = verificationDuCheminFou (indicePiece, i, j, tabJoueur, tabEnnemi);
+        else if(indicePiece==6 || indicePiece==7 || (indicePiece>7 && promoJoueur[indicePiece-8] == 84)) possible = verificationDuCheminTour (indicePiece, i, j, tabJoueur, tabEnnemi);
         else possible = true;
 
         return possible;
