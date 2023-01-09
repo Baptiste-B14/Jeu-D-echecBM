@@ -1,46 +1,47 @@
  public class Chrono {
 
-    private long tempsDepart=0;
-    private long tempsFin=0;
-    private long pauseDepart=0;
-    private long pauseFin=0;
-    private long duree=0;
+    private static long tempsDepart=0;
+    private static long tempsFin=0;
+    private static long duree = 0;
+    private static long pauseFin=0;
 
-    public long start()
+
+    public static long start()
     {
         tempsDepart=System.currentTimeMillis();
         tempsFin=0;
-        pauseDepart=0;
+
         pauseFin=0;
-        duree=0;
+
         return tempsDepart;
     }
 
-    public long pause()
+    public static long pause(long tempsActuel)
     {
-        pauseDepart=System.currentTimeMillis();
-        return pauseDepart;
+        long pauseDepart =System.currentTimeMillis();
+
+        return (tempsActuel+ pauseDepart);
     }
 
-    public long resume()
+    public static long resume(long pauseDepart)
     {
         pauseFin=System.currentTimeMillis();
         tempsDepart=tempsDepart+pauseFin-pauseDepart;
         tempsFin=0;
-        pauseDepart=0;
+
         pauseFin=0;
         duree=0;
         return tempsDepart;
     }
 
-    public void stop()
+    public static void stop()
     {
         if(tempsDepart==0) {return;}
         tempsFin=System.currentTimeMillis();
-        duree=(tempsFin-tempsDepart) - (pauseFin-pauseDepart);
+        //duree=(tempsFin-tempsDepart) - (pauseFin-pauseDepart);
         tempsDepart=0;
         tempsFin=0;
-        pauseDepart=0;
+
         pauseFin=0;
     }
 
