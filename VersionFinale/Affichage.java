@@ -82,11 +82,14 @@ public class Affichage {
     public static void affichageSolutions (boolean aide, int[][] tabSolutions){
         char coordonnees;
         System.out.println();
+        // On affiche les solutions si on a enregistré au moins une solution
         if(aide && tabSolutions[0][0]>=0){
             System.out.print("Pour éviter l'échec, vous pouvez déplacer une de vos pièces sur la/les case(s) : ");
             for (int i=0; i<tabSolutions.length && tabSolutions[i][0]>=0; i++){
+                // On affiche la lettre
                 coordonnees = (char)(tabSolutions[i][0]+65);
                 System.out.print(coordonnees);
+                // On affiche le chiffre
                 coordonnees = (char)(tabSolutions[i][1]+49);
                 System.out.print(coordonnees +" ; ");
             }
