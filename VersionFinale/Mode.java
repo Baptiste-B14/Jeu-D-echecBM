@@ -17,14 +17,16 @@ public class Mode {
             aide=true;
 
         do{
-            System.out.println("Mode de jeu blitz ? Oui | Non  ( o, n )");
+            System.out.println("Mode de jeu blitz ? ( Oui/Non )");
             choixBlitz = sc.nextLine().toLowerCase();
-        }while(!choixBlitz.equals("o") && !choixBlitz.equals("n"));
+        }while(!choixBlitz.equals("oui") && !choixBlitz.equals("non"));
 
 
-        if(choixBlitz.equals("o"))blitz = true;
+        if(choixBlitz.equals("oui"))blitz = true;
         else blitz = false;
 
+
+        System.out.println("Pour sélectionner une case, veuillez respecter le format LettreChiffre (B5) tout au long de la partie.");
         Menu.menu(aide, blitz);
     }
 
