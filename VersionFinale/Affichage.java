@@ -1,6 +1,15 @@
 
 public class Affichage {
 
+    /**
+     * La méthode printBoard s'occupe d'afficher l'échiquier et les pièces qui sont dessus.
+     * Pour cela, un nouveau tableau 2D de 8x8 est créé et contiendra un chaine de caractère dans chaque case, qui correspond à "l'état" de la case.
+     * Ensuite, une fois chaque case remplie, un parcours régulier du tableau affichera une chaine de caractère en fonction du contenu du tableau.
+     * @param tabBlanc le tableau contenant les pièces blanches
+     * @param tabNoir le tableau contenant les pièces noires
+     * @param pBlanc le tableau contenant les promotions de chaque pions blancs
+     * @param pNoir le tableau contenant les promotions de chaque pions noirs
+     */
     public static void printBoard(int[][]tabBlanc, int[][] tabNoir, char[] pBlanc, char[] pNoir){
         String [][] plateau = new String [8][8];
         String type;
@@ -18,16 +27,16 @@ public class Affichage {
             }
         }
 
-        System.out.println("     1     2     3     4     5     6     7     8  ");
+        System.out.println("     1     2     3     4     5     6     7     8  ");//ligne "0", affiche les numeros des colonnes
 
-        char numLigne  = 65;
+        char numLigne  = 65;//sera incrémenté toute les lignes. Affiche la lettre de la ligne
 
-        for(int ligne = 0; ligne<plateau.length; ligne++){
+        for(int ligne = 0; ligne<plateau.length; ligne++){//parcours régulier du tableau contenant les cases.
 
-            System.out.print(""+numLigne + " |");
+            System.out.print(""+numLigne + " |");//colonne "0"
             for(int colonne=0; colonne<plateau[ligne].length; colonne++){
-                if(plateau[ligne][colonne] != null){
-                    System.out.print( " _" + plateau[ligne][colonne] + "_ |");
+                if(plateau[ligne][colonne] != null){//regarde si la case est vide ou contient une pièce
+                    System.out.print( " _" + plateau[ligne][colonne] + "_ |");//affiche la pièce (ici un code unicode afin d'avoir le symbole de chaque pièce, plutot qu'une chaine de char (ex BC pour cavalier blanc)
                 }else{
                     System.out.print(" _ _ |");
                 }
@@ -40,12 +49,18 @@ public class Affichage {
 
     }
 
-
+    /**
+     * Determine le codage unicode de chaque pièce en fonction de son type.
+     * @param indicePiece l'indice de la pièce dans le tableau des positions. Il correspond ainsi à son type de façon induite (norme de construction du programme)
+     * @param couleur la couleur de la pièce, les codes unicode ne sont pas les mêmes selon la couleur
+     * @param promotion le tableau de promotion des pions de correspondant à la couleur
+     * @return une chaine de caractères correspondant au code unicode de la pièce
+     */
     public static String typePiece(int indicePiece, int couleur, char []promotion){
         String chara;
         int code=0;
 
-        if(couleur == 1) {
+        if(couleur == 1) {//determine quelle est la couleur de la pièce
             if (indicePiece == 0) code = 0x2654;//roi noir
 
 
@@ -74,22 +89,24 @@ public class Affichage {
             else if (indicePiece > 7 ) code = 0x265F;
         }
 
-        chara = Character.toString((char)code);
+        chara = Character.toString((char)code);//convertit le code unicode en une string compréhensible du programme
         return chara;
     }
 
 
+    /**
+     * Cette méthode est uniquement utile à l'affichage. En effet les solutions sont systématiquement déterminées, mais pas forcément affichées.
+     * @param aide boolean indiquant si l'aide est active
+     * @param tabSolutions tableau 2D contenant les solutions possibles pour sortir de l'echec.
+     */
     public static void affichageSolutions (boolean aide, int[][] tabSolutions){
         char coordonnees;
         System.out.println();
-        // On affiche les solutions si on a enregistré au moins une solution
-        if(aide && tabSolutions[0][0]>=0){
+        if(aide && tabSolutions[0][0]>=0){//parcours du tableau des solutions
             System.out.print("Pour éviter l'échec, vous pouvez déplacer une de vos pièces sur la/les case(s) : ");
             for (int i=0; i<tabSolutions.length && tabSolutions[i][0]>=0; i++){
-                // On affiche la lettre
                 coordonnees = (char)(tabSolutions[i][0]+65);
                 System.out.print(coordonnees);
-                // On affiche le chiffre
                 coordonnees = (char)(tabSolutions[i][1]+49);
                 System.out.print(coordonnees +" ; ");
             }
