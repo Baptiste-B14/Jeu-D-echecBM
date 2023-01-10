@@ -2,6 +2,11 @@ import java.util.Scanner;
 
 public class Fonction {
 
+    /**
+     * Méthode de saisie de la pièceà déplacer. La saisie est forcée afin d'avoir une position correcte, si erreur avant.
+     * @param tabJoueur les tableau des positions des pièces du joueur
+     * @return entier, l'indice de pièce saisie
+     */
     public static int demandeSaisie( int[][] tabJoueur){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int indicePiece = -1;
@@ -11,10 +16,10 @@ public class Fonction {
             String CaseEchiquier = "";
             do {
                 System.out.print("Saisir la position de la pièce à déplacer : ");
-                CaseEchiquier = sc.nextLine().toUpperCase();
-            } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));
+                CaseEchiquier = sc.nextLine().toUpperCase();//ignore la casse
+            } while (CaseEchiquier.length() != 2 || (CaseEchiquier.charAt(0) < 65 || CaseEchiquier.charAt(0) > 72) || (CaseEchiquier.charAt(1) < 49 || CaseEchiquier.charAt(1) > 56));//force la saisie selon le format LettreChiffre
 
-            for (int i = 0; i < tabJoueur.length; i++) {
+            for (int i = 0; i < tabJoueur.length; i++) {//cherche si une pièce dans le tableau possède la position fournie. Si non, alors case vide.
                 if ((tabJoueur[i][0] == CaseEchiquier.charAt(0) - 65) && tabJoueur[i][1] == CaseEchiquier.charAt(1) - 49) {
                     indicePiece = i;
                     caseNonVide = true;
@@ -27,6 +32,10 @@ public class Fonction {
         return indicePiece;
     }
 
+    /**
+     * Meme principe que la demande de saisie. La saisie est forcée afin d'avoir une case valide
+     * @return un tableau 1D contenant le x et le y de la position à atteindre. Ces coordonées seront utiles pour vérifier plusieurs propritées de la pièces
+     */
     public static int[] demandePosition(){
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
         int[] position = new int[2];
@@ -43,6 +52,13 @@ public class Fonction {
         return position;
     }
 
+    /**
+     * Vérifie si la case correspondant aux positions données est vide de pièces du joueur (pas du joueur ennemi, car on peut prendre sa place)
+     * @param i indice de la ligne où va être posée la pièce
+     * @param j indice de la colonne où va être posée la pièce
+     * @param tabJoueur le tableau des positions des pièce  du joueur
+     * @return
+     */
     public static boolean caseDisponible (int i, int j, int[][] tabJoueur){
         // On vérifie si la case sélectionnée n'est pas déjà occupée par un pion de la même couleur
         for (int k = 0; k < tabJoueur.length; k++) {
@@ -55,6 +71,17 @@ public class Fonction {
 
     }
 
+    /**
+     * En fonction de l'indice fourni (et de la promotion si pion), la méthode appelera la bonne fonction de vérification correspondant à la pièce
+     * @param indicePiece entier correspondant à l'indice de la pièce dans le tableau de position, c'est aussi son type
+     * @param i position x
+     * @param j position y
+     * @param couleur couleur du joueur (pour les pions)
+     * @param tabJoueur le tableau de position des pièces du joueur
+     * @param tabEnnemi le tableau de position des pièces du joueur ennemi
+     * @param promoJoueur le tableau de promotion du joueur
+     * @return le boolean validant le schema de déplacement
+     */
     public static boolean verificationDeplacementPossible( int indicePiece, int i, int j, int couleur, int tabJoueur[][],int tabEnnemi[][], char[] promoJoueur){
         boolean possible = false;
 
@@ -370,16 +397,11 @@ public class Fonction {
 
     public static boolean solutions (boolean aide, int x, int y, int[][] tabSolutions){
         int i=0;
-        // On vérifie si l'aide a été demandée ou non
         if (aide){
-            // On accède à la première case du tableau vide
             while(i<5 && tabSolutions[i][0]>=0) i++;
-            // Si le tableau n'est pas encore complet on le remplit
             if (i<5) {
                 int j=0;
-                // On vérifie que la case solution n'est pas déjà mentionnée
                 while(j<i && (tabSolutions[j][0]!=x || tabSolutions[j][1]!=y)) j++;
-                // On enregistre la solution
                 if (j==i) {
                     tabSolutions[i][0] = x;
                     tabSolutions[i][1] = y;
