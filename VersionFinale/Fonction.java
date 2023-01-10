@@ -383,7 +383,7 @@ public class Fonction {
      */
     public static boolean promotionPossible(int indicePiece, int couleur, int[][] tabJoueur, char [] promotion){
         if(indicePiece<7) return false;//la pièce doit être un pion
-        if(promotion[indicePiece-7] != 'p') return false;//le pion ne doit pas avoir de promotion 'p' est la valeur pas défaut
+        if(promotion[indicePiece-8] != 'p') return false;//le pion ne doit pas avoir de promotion 'p' est la valeur pas défaut
         int derniereLigne;
         if(couleur == 0) derniereLigne = 7;//determine la dernière ligne en fonction de la couleur
         else derniereLigne = 0;
@@ -402,7 +402,7 @@ public class Fonction {
             promotion = sc.nextLine().toUpperCase();
         }while(promotion.length() != 1 || ((promotion.charAt(0) != 67 && promotion.charAt(0) != 68) && (promotion.charAt(0) != 70 && promotion.charAt(0) != 84)));  //67 = c, 68 = d, 70 = f
         System.out.println("Promotion effectuée");
-        promoJoueur[indicePiece-7] = promotion.charAt(0);//change la valeur de la promotion dans le tableau
+        promoJoueur[indicePiece-8] = promotion.charAt(0);//change la valeur de la promotion dans le tableau
 
 
     }
