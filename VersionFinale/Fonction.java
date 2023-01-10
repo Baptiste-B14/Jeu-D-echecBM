@@ -382,7 +382,7 @@ public class Fonction {
      * @return le boolean validant la promotion
      */
     public static boolean promotionPossible(int indicePiece, int couleur, int[][] tabJoueur, char [] promotion){
-        if(indicePiece<7) return false;//la pièce doit être un pion
+        if(indicePiece<8) return false;//la pièce doit être un pion
         if(promotion[indicePiece-8] != 'p') return false;//le pion ne doit pas avoir de promotion 'p' est la valeur pas défaut
         int derniereLigne;
         if(couleur == 0) derniereLigne = 7;//determine la dernière ligne en fonction de la couleur
