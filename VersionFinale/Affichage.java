@@ -102,11 +102,15 @@ public class Affichage {
     public static void affichageSolutions (boolean aide, int[][] tabSolutions){
         char coordonnees;
         System.out.println();
+        // On vérifie que le tableau de solutions n'est pas vide
         if(aide && tabSolutions[0][0]>=0){//parcours du tableau des solutions
             System.out.print("Pour éviter l'échec, vous pouvez déplacer une de vos pièces sur la/les case(s) : ");
+            // On affiche toutes les solutions
             for (int i=0; i<tabSolutions.length && tabSolutions[i][0]>=0; i++){
+                // On affiche le caractère
                 coordonnees = (char)(tabSolutions[i][0]+65);
                 System.out.print(coordonnees);
+                // On affiche le chiffre
                 coordonnees = (char)(tabSolutions[i][1]+49);
                 System.out.print(coordonnees +" ; ");
             }
