@@ -409,16 +409,20 @@ public class Fonction {
 
     public static boolean solutions (boolean aide, int x, int y, int[][] tabSolutions){
         int i=0;
+        // On vérifie si l'aide est demandée ou non
         if (aide){
+            // On cherche la première case disponible
             while(i<5 && tabSolutions[i][0]>=0) i++;
             if (i<5) {
                 int j=0;
+                // On vérifie que la case solution x;y, n'est pas déjà mentionnée
                 while(j<i && (tabSolutions[j][0]!=x || tabSolutions[j][1]!=y)) j++;
                 if (j==i) {
                     tabSolutions[i][0] = x;
                     tabSolutions[i][1] = y;
                 }
             }
+            // Si le tableau est déjà rempli, on ne recherche plus d'autres solutions
             else {return false;}
         }
         else{
