@@ -157,7 +157,7 @@ public class Fonction {
         int y = tabJoueur[indice][1];
 
         return ((Math.abs(x-i)) == (Math.abs(y-j)));  // le deplacement horizontal et vertical doivent avoir la meme valeur (diagonal).
-        // afin de traiter tout les cas, valeur absolue evite d'avoir des valeur négatives i et j sup a x et y (deplacement vers le bas)é
+        // afin de traiter tout les cas, valeur absolue evite d'avoir des valeurs négatives i et j supérieur à x et y (deplacement vers le bas)
 
 
     }
@@ -182,6 +182,10 @@ public class Fonction {
     }
 
 
+    /**
+     * Fonctionnement similaire à verificationDéplacement()
+     *
+     */
     public static boolean verificationDuChemin (int indicePiece, int i, int j, int[][] tabJoueur, int[][]tabEnnemi, char[]promoJoueur){
         boolean possible=false;
         if(indicePiece==1 ||  (indicePiece>7 && promoJoueur[indicePiece-8] == 68)) possible = (verificationDuCheminDame(indicePiece, i, j, tabJoueur, tabEnnemi));
@@ -369,14 +373,22 @@ public class Fonction {
     }
 
 
+    /**
+     * Vérifie que si le pion peut accéder à une promotion
+     * @param indicePiece
+     * @param couleur
+     * @param tabJoueur
+     * @param promotion
+     * @return le boolean validant la promotion
+     */
     public static boolean promotionPossible(int indicePiece, int couleur, int[][] tabJoueur, char [] promotion){
-        if(indicePiece<7) return false;
-        if(promotion[indicePiece-7] != 'p') return false;
+        if(indicePiece<7) return false;//la pièce doit être un pion
+        if(promotion[indicePiece-7] != 'p') return false;//le pion ne doit pas avoir de promotion 'p' est la valeur pas défaut
         int derniereLigne;
-        if(couleur == 0) derniereLigne = 7;
+        if(couleur == 0) derniereLigne = 7;//determine la dernière ligne en fonction de la couleur
         else derniereLigne = 0;
 
-        return tabJoueur[indicePiece][0]== derniereLigne;
+        return tabJoueur[indicePiece][0]== derniereLigne;//vérifie que le ppion est bein sur sa dernière ligne, sinon il ne peut pas accéder à une promotion
     }
 
 
@@ -385,12 +397,12 @@ public class Fonction {
 
         String promotion;
 
-        do {
+        do {//saisie forcée d'un type de pièce
             System.out.println("Saisir un type de pièce : Dame | Fou | Cavalier | Tour (D, F, C, T)");
             promotion = sc.nextLine().toUpperCase();
         }while(promotion.length() != 1 || ((promotion.charAt(0) != 67 && promotion.charAt(0) != 68) && (promotion.charAt(0) != 70 && promotion.charAt(0) != 84)));  //67 = c, 68 = d, 70 = f
         System.out.println("Promotion effectuée");
-        promoJoueur[indicePiece-7] = promotion.charAt(0);
+        promoJoueur[indicePiece-7] = promotion.charAt(0);//change la valeur de la promotion dans le tableau
 
 
     }
